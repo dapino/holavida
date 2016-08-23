@@ -159,17 +159,16 @@ global $post, $product, $woocommerce_loop;
 			  <h3 class="subtitle-related">Artículos relacionados			  	
 			  </h3>
 		<?php 
-			$product_cats = wp_get_post_terms( get_the_ID(), 'product_cat' ); 
-			$product_cat = $product_cats[0]->slug;
+			$product_tags = get_terms( 'product_tag' ); 
+			$product_tag = $product_tags[0]->slug;
 		  ?>
-
 		 
 			<?php
         query_posts(array(
         'post_type' => 'post',
         'showposts' => 3,
         'order' => 'ASC',
-        'category_name'  => $product_cat
+        'tag'  => $product_tag
         ) );
       ?>
       <?php while (have_posts()) : the_post(); 

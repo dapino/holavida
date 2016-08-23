@@ -18,15 +18,20 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
       <h1><?php the_title(); ?></h1>
       <div class="post-featured-image"> <?php the_post_thumbnail(); ?></div>
       <p><?php the_content( ); ?></p>
+      <?php $main_post_tags = get_the_tags(); ?>
+      <?php $tag_name = $main_post_tags[0]->slug ?>
       <?php $main_cat_arr = get_the_category(); ?>
       <?php $main_cat = $main_cat_arr[0]->slug; ?>
-<?php endwhile;  endif; wp_reset_query();?>
-  <div class="row">
+      <?php endwhile;  endif; wp_reset_query();?>
+        <div class="row">
+
+
        <?php
             query_posts(array(
             'post_type' => 'post',
             'showposts' => 3,
-            'order' => 'DESC'
+            'order' => 'DESC',
+            'tag'  => $tag_name
             ) );
           ?>
           <?php while (have_posts()) : the_post(); 
@@ -52,7 +57,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
               </a>
             </div>
           </div>      
-<?php endwhile; wp_reset_query();?>
+      <?php endwhile; wp_reset_query();?>
       
     </div>
     
@@ -69,7 +74,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
         $args = array(
           'post_type' => 'product',
           'posts_per_page' => 3,
-          'product_cat' => $main_cat
+          'product_tag' => $tag_name
         );
         $loop = new WP_Query( $args );
         if ( $loop->have_posts() ) {
