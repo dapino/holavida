@@ -36,8 +36,8 @@ global $post, $product, $woocommerce_loop;
 	 }
 ?>
 <div class="container section-padding single-product-container">
-	<div class="row single-product-header">
-		<div class="col l7 m7 s12 overHidden">
+	<div class="row single-product-header ">
+		<div class="col l7 m7 s12 overHidden ">
 			<?php the_title( '<h1 itemprop="name" class="product_title entry-title">', '</h1>' );?>
 		<?php echo $product->get_categories( ', ', '<span class="posted_in">' . ' ', '</span>' ); ?>
 		</div>		
@@ -50,8 +50,11 @@ global $post, $product, $woocommerce_loop;
 
 
 	<div class="row single-product-card " itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
-		
-		<div class="col l7 m7 s12 overHidden">
+		<?php 
+			$product_cats = wp_get_post_terms( get_the_ID(), 'product_cat' ); 
+			$product_cat = $product_cats[0]->slug;
+		 ?>
+		<div class="col l7 m7 s12 overHidden featured-media <?php echo $product_cat ?>">
 			
 		<?php
 			/**
@@ -67,22 +70,49 @@ global $post, $product, $woocommerce_loop;
 		</div>
 
 		<div class="col l5 m5 s12 summary entry-summary">
-			<h4>Información Importante</h4>
-			<ul class="summary-details">
-				<li>
-					<?php echo $product->get_attribute( 'ciudad' ); ?>
-				</li>
-				<li>
-				<?php echo $product->get_attribute( 'fechas' ); ?>
-				</li>
-				<li>
-				<?php echo $product->get_attribute( 'duracion' ); ?>
-				</li>
-				<li>
-				<?php echo $product->get_attribute( 'direccion' ); ?>
-				</li>
-			</ul>
+	<div class="important-info">
+		
+		<h3>Información Importante</h3>
+		<ul class="attributes-list" >
+			
+			<?php $attributes = $product->get_attributes(); ?>
 
+				<?php foreach ( $attributes as $attribute ) :
+						if ( empty( $attribute['is_visible'] ) || ( $attribute['is_taxonomy'] && ! taxonomy_exists( $attribute['name'] ) ) ) {
+							continue;
+						}
+						?>
+					<li>
+						<span class="attr-name">
+							
+						<?php echo wc_attribute_label( $attribute['name'] ); ?></
+						</span>
+						<?php
+							if ( $attribute['is_taxonomy'] ) {
+
+								$values = wc_get_product_terms( $product->id, $attribute['name'], array( 'fields' => 'names' ) );?>
+
+
+								<?php
+
+								echo apply_filters( 'woocommerce_attribute', wpautop( wptexturize( implode( ', ', $values ) ) ), $attribute, $values );
+
+							} else {
+
+								// Convert pipes to commas and display values
+								$values = array_map( 'trim', explode( WC_DELIMITER, $attribute['value'] ) );
+								echo apply_filters( 'woocommerce_attribute', wpautop( wptexturize( implode( ', ', $values ) ) ), $attribute, $values );
+
+							}
+						?>
+
+				</li>
+			
+			<?php endforeach; ?>
+		</ul>
+
+	</div>	
+			
 			<?php
 				/**
 				 * woocommerce_single_product_summary hook.
@@ -97,10 +127,21 @@ global $post, $product, $woocommerce_loop;
 				 */
 				do_action( 'woocommerce_single_product_summary' );
 			?>
+				<div class="contact-summary-button">
+					<a href="#">
+						Contáctenos
+					</a>
+				</div>
+
 
 			<div class="row">
-				<div class="col l6 s12">
-					<span class="secure-logo"></span>
+			
+			
+				<div class="col l8 s12">
+					<span class="secure-logo secure-logo-2"></span>
+				</div>
+				<div class="col l4 s12">
+					<span class="secure-logo secure-logo-1"></span>
 				</div>
 				
 			</div>
@@ -109,12 +150,14 @@ global $post, $product, $woocommerce_loop;
 	<div class="row">
  
 		<!-- Descripción --> 
-		<div class="col l7 m7 s12 large-description">
-			  <h2><?php echo get_post_meta( get_the_ID(), 'tituloDescripcion', true ); ?>			  	
-			  </h2>
+		<div class="col l6 m6 s12 large-description">
+			  <h3 class="subtitle-related"><?php echo get_post_meta( get_the_ID(), 'tituloDescripcion', true ); ?>			  	
+			  </h3>
 			<?php the_content(); ?>
 		</div>
-		<div class="col l5 m5 s12">
+		<div class="col l6 m6 s12">
+			  <h3 class="subtitle-related">Artículos relacionados			  	
+			  </h3>
 		<?php 
 			$product_cats = wp_get_post_terms( get_the_ID(), 'product_cat' ); 
 			$product_cat = $product_cats[0]->slug;
@@ -249,7 +292,7 @@ if ( $products->have_posts() ) : ?>
 	<div class="container">
 		<div class="related products col l12">
 
-			<h2 class="center-align"><?php _e( 'Experiencias Relacionadas', 'woocommerce' ); ?></h2>
+			<h3 class="center module-title text-dark-gray"><?php _e( 'Experiencias Relacionadas', 'woocommerce' ); ?></h3>
 			<?php while ( $products->have_posts() ) : $products->the_post(); ?>
 				
 					<?php wc_get_template_part( 'content', 'product' ); ?>

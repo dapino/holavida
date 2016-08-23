@@ -1,9 +1,7 @@
 <section id="new-products" class="section-padding">
   <div class="container">
     
-    <div class="module-title">
-      <h2 class="center">Experiencias</h2>
-    </div>
+      <h3 class="center module-title text-dark-gray">Experiencias</h3>
 
     <div class="row products-carousel">
       <?php

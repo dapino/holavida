@@ -21,6 +21,7 @@ if ( ! function_exists( 'theme_setup' ) ) :
       add_image_size( 'thumbnail-offers', 475, 315, true );
       add_image_size( 'icono-destacado', 100, 100, true );
       add_image_size( 'banner', 650, 300, true );
+      add_image_size( 'product-thumbnail', 215, 150, true );
     }
 
     add_filter( 'image_size_names_choose', 'custom_image_sizes_choose' );
@@ -32,6 +33,7 @@ if ( ! function_exists( 'theme_setup' ) ) :
         'thumbnail-offers'  => 'Miniatura ofertas',
         'icono-destacado'  => 'icono destacado',
         'banner'  => 'Banner home',
+        'product-thumbnail'  => 'miniatura producto',
        
       );
       return array_merge( $sizes, $custom_sizes );
@@ -56,9 +58,7 @@ function theme_customizer( $wp_customize ) {
     /*menu*/
       function register_menu() {
         register_nav_menu('main-menu', __('Main menu')); 
-        register_nav_menu('footer-menu-1', __('Footer menu 1')); 
-        register_nav_menu('footer-menu-2', __('Footer menu 2')); 
-        register_nav_menu('footer-menu-3', __('Footer menu 3')); 
+        register_nav_menu('footer-menu', __('Footer menu')); 
       }   
       add_action('init', 'register_menu');
 
@@ -116,51 +116,13 @@ function define_widgets() {
     'after_title'   => '</h2>',
   ) );
 
-  register_sidebar( array(
-      'id'          => 'sidebar-1',
-      'name'        =>  'Categorías',
-      'description' => 'Filtro de Categorías',
-  ) );
-  register_sidebar( array(
-      'id'          => 'sidebar-2',
-      'name'        =>  'Precio',
-      'description' => 'Filtro de Precio',
-  ) );
-  register_sidebar( array(
-      'id'          => 'sidebar-3',
-      'name'        =>  'Talla',
-      'description' => 'Filtro de Talla',
-  ) );
-  register_sidebar( array(
-      'id'          => 'sidebar-4',
-      'name'        =>  'Color',
-      'description' => 'Filtro de Color',
-  ) );
-  register_sidebar( array(
-      'id'          => 'sidebar-5',
-      'name'        =>  'Filtros activos',
-      'description' => 'Reset de filtros activos',
-  ) );
+  
   register_sidebar( array(
       'id'          => 'form-newsletter',
       'name'        =>  'Newsletter',
-      'description' => 'campo del formulario en el footer',
+      'description' => 'campo del formulario de newsletter',
   ) );
-  register_sidebar( array(
-      'id'          => 'fb-feed',
-      'name'        =>  'Facebook feed',
-      'description' => '',
-  ) );
-  register_sidebar( array(
-      'id'          => 'tw-feed',
-      'name'        =>  'Twitter feed',
-      'description' => '',
-  ) );
-  register_sidebar( array(
-      'id'          => 'banner-home',
-      'name'        =>  'banner home',
-      'description' => '',
-  ) );
+  
 
 
 }
@@ -177,7 +139,10 @@ add_filter( 'auto_update_theme', '__return_false' );
 add_filter( 'woocommerce_add_to_cart_fragments', 'woocommerce_header_add_to_cart_fragment' );
 
 
-
+function my_custom_menu() {
+  add_menu_page ( 'Blog', 'Blog', 'read', 'edit.php', '', '', 1);
+}
+//add_action( 'admin_menu', 'my_custom_menu'); 
 function woocommerce_header_add_to_cart_fragment( $fragments ) {
   ob_start();
   ?>
@@ -290,95 +255,5 @@ function slides_taxonomy() {
 add_action( 'init', 'slides_taxonomy' );
 
 
-//Custom Post Type destacado
-function destacados_taxonomy() {
-  $labels = array( 
-    'name'               => _x( 'destacado', 'destacado' ),
-    'singular_name'      => _x( 'destacado', 'destacado' ),
-    'add_new'            => _x( 'Nuevo destacado', 'destacado' ),
-    'add_new_item'       => _x( 'Nuevo destacado', 'destacado' ),
-    'edit_item'          => _x( 'Editar destacado', 'destacado' ),
-    'new_item'           => _x( 'Nuevo destacado', 'destacado' ),
-    'view_item'          => _x( 'Ver destacado', 'destacado' ),
-    'search_items'       => _x( 'Buscar destacado', 'destacado' ),
-    'not_found'          => _x( 'No se encontraron destacados', 'destacado' ),
-    'not_found_in_trash' => _x( 'No se encontraron destacados en la papelera', 'destacado' ),
-    'menu_name'          => _x( 'destacados', 'destacado' ),
-    );
-
-  $args = array( 
-    'can_export'          => true,
-    'capability_type'     => 'post',
-    'exclude_from_search' => true,
-    'has_archive'         => false,
-    'hierarchical'        => false,
-    'labels'              => $labels,
-    'menu_icon'   => 'dashicons-testimonial',
-    'menu_position'       => 5,
-    'public'              => true,
-    'publicly_queryable'  => true,
-    'query_var'           => true,
-    'rewrite'             => array("slug" => "destacado"),
-    'show_in_admin_bar' => true,
-    'show_in_menu'        => true,
-    'show_in_nav_menus'   => false,
-    'show_ui'             => true,
-    'supports'            => array( 'title', 'excerpt', 'thumbnail', 'editor' )
-    );
-
-  register_post_type( 'destacado', $args );
-  flush_rewrite_rules();
-}
-add_action( 'init', 'destacados_taxonomy' );
-
-//Custom Post Type banner
-function banners_taxonomy() {
-  $labels = array( 
-    'name'               => _x( 'banner', 'banner' ),
-    'singular_name'      => _x( 'banner', 'banner' ),
-    'add_new'            => _x( 'Nuevo banner', 'banner' ),
-    'add_new_item'       => _x( 'Nuevo banner', 'banner' ),
-    'edit_item'          => _x( 'Editar banner', 'banner' ),
-    'new_item'           => _x( 'Nuevo banner', 'banner' ),
-    'view_item'          => _x( 'Ver banner', 'banner' ),
-    'search_items'       => _x( 'Buscar banner', 'banner' ),
-    'not_found'          => _x( 'No se encontraron banners', 'banner' ),
-    'not_found_in_trash' => _x( 'No se encontraron banners en la papelera', 'banner' ),
-    'menu_name'          => _x( 'banner', 'banner' ),
-    );
-
-  $args = array( 
-    'can_export'          => true,
-    'capability_type'     => 'post',
-    'exclude_from_search' => true,
-    'has_archive'         => false,
-    'hierarchical'        => false,
-    'labels'              => $labels,
-    'menu_icon'   => 'dashicons-welcome-view-site',
-    'menu_position'       => 5,
-    'public'              => true,
-    'publicly_queryable'  => true,
-    'query_var'           => true,
-    'rewrite'             => array("slug" => "banner"),
-    'show_in_admin_bar' => true,
-    'show_in_menu'        => true,
-    'show_in_nav_menus'   => false,
-    'show_ui'             => true,
-    'supports'            => array( 'title','thumbnail', 'custom-fields' )
-    );
-
-  register_post_type( 'banner', $args );
-  flush_rewrite_rules();
-}
-add_action( 'init', 'banners_taxonomy' );
 
 
-function wpse28782_remove_menu_items() {
-    if( !current_user_can( 'administrator' ) ):
-        remove_menu_page( 'edit.php?post_type=destacado' );
-        remove_menu_page( 'edit.php?post_type=slide' );
-    endif;
-}
-add_action( 'admin_menu', 'wpse28782_remove_menu_items' );
-
-?>

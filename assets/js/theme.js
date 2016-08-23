@@ -61,10 +61,54 @@ u+="translateY("+(M[0].clientHeight-item_width)/2+"px)"),l=f[r(v)],l.style[S]=u+
                 }
             });
 
-            $(".showlogin").click(function(event) {
-               $('.login').css('display', 'block');
+
+            $("#navbar-search-button").click(function(event) {
+               $(this).toggleClass('close');
+               $('#navbar-search').toggleClass('show-search');
+            });
+
+            $("#signin-button").click(function(event) {
+               $(this).addClass('active');
+               $("#signup-button").removeClass('active')
+               $("#signup-form").css('display', 'none');
+               $("#signin-form").css('display', 'block');
+            });
+            $("#signup-button").click(function(event) {
+               $(this).addClass('active');
+               $("#signin-button").removeClass('active')
+               $("#signin-form").css('display', 'none');
+               $("#signup-form").css('display', 'block');
             });
             
+            $('input[type="number"]').css({
+                width: 50,
+                left: 40,
+                position: 'relative'
+            }).after(function() {
+                return $('<div />', {
+                    'class': 'spinner',
+                    css : {
+                        height: $(this).outerHeight(),
+                        top: $(this).position().top,
+                        left: $(this).position().left - 40,
+                    },
+                    text: '-'
+                }).on('click', {input : this}, function(e) {
+                    e.data.input.value = (+e.data.input.value) - 1;
+                });
+            }).before(function() {
+                return $('<div />', {
+                    'class': 'spinner',
+                    css : {
+                        height: $(this).outerHeight(),
+                        top: $(this).position().top,
+                        left: $(this).position().left + $(this).width(),
+                    },
+                    text: '+'
+                }).on('click', {input : this}, function(e) {
+                    e.data.input.value = (+e.data.input.value) + 1;
+                });
+            });
 
             
             $(window).on('scroll', function(event) {

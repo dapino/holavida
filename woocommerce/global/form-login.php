@@ -25,6 +25,8 @@ if ( is_user_logged_in() ) {
 }
 
 ?>
+<div class="row" id="customer_login">
+	<div class="signin-form" id="signin-form">
 <form method="post" class="login" <?php if ( $hidden ) echo 'style="display:none;"'; ?>>
 
 	<?php do_action( 'woocommerce_login_form_start' ); ?>
@@ -43,15 +45,17 @@ if ( is_user_logged_in() ) {
 
 	<?php do_action( 'woocommerce_login_form' ); ?>
 
-	<p class="form-row">
+	<p class="center-align">
 		<?php wp_nonce_field( 'woocommerce-login' ); ?>
-		<input type="submit" class="button" name="login" value="<?php esc_attr_e( 'Login', 'woocommerce' ); ?>" />
+		<input type="submit" class="btn" name="login" value="<?php esc_attr_e( 'Login', 'woocommerce' ); ?>" />
 		<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ) ?>" />
+	</p>
+	<p class="center-align">
 		<label for="rememberme" class="inline">
 			<input name="rememberme" type="checkbox" id="rememberme" value="forever" /> <?php _e( 'Remember me', 'woocommerce' ); ?>
 		</label>
 	</p>
-	<p class="lost_password">
+	<p class="lost_password center-align">
 		<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?', 'woocommerce' ); ?></a>
 	</p>
 
@@ -60,3 +64,6 @@ if ( is_user_logged_in() ) {
 	<?php do_action( 'woocommerce_login_form_end' ); ?>
 
 </form>
+</div>
+</div>
+

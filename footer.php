@@ -3,8 +3,18 @@
 				<div class="row">
 						
 				  <div class="terms col s12 center-align">
-			      <a href="/terminos" class="white-text">Términos de Uso</a>
-			      <br>
+
+				  		<?php
+									wp_nav_menu(
+										array(
+											'theme_location' => 'footer-menu',
+											'container' => 'ul',
+											'sort_column' => 'menu_order',
+											'container_class' => '',
+											'menu_class' => 'footer-nav'
+										)
+									);
+								?>
 				  </div>
 				  <div class="col s12 center-align">
 					  <div class="social center-align">
@@ -34,6 +44,7 @@
 				  </div>
 				</div>
 		  </div>
+		  <?php wp_footer(); ?>
 		</footer>
 	</body>
 </html>

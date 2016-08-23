@@ -1,6 +1,6 @@
 <section class="slider-container first-section">
    <div class="search-fixed not-full search">
-  
+  <?php //echo do_shortcode('[aws]'); ?>
         
         <?php if ( is_active_sidebar( 'search-widget' ) ) : ?>
             <?php dynamic_sidebar( 'search-widget' ); ?>
@@ -11,7 +11,7 @@
     <?php
         query_posts(array(
         'post_type' => 'slide',
-        'showposts' => 3,
+        'showposts' => 10,
         'order' => 'ASC'
         ) );
       ?>

@@ -59,6 +59,11 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
 
     </div>
     <div class="col l3 m4 s12 sidebar-post">
+      <div class="newsletter-widget newsletter-widget-left">
+        <?php if ( is_active_sidebar( 'form-newsletter' ) ) : ?>
+              <?php dynamic_sidebar( 'form-newsletter' ); ?>
+          <?php endif; ?>
+      </div>
       <h3 class="center-align">Experiencias relacionadas </h3>
       <?php
         $args = array(

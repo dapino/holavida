@@ -7,8 +7,15 @@ get_header();
 <div class="bg-dark-white">
 
   <div class="container">
+    <h1 class="center module-title text-dark-gray blog"><?php the_title(); ?></h1>
+    <div class="row">
+      <div class="newsletter-widget newsletter-widget-top">
+        <?php if ( is_active_sidebar( 'form-newsletter' ) ) : ?>
+              <?php dynamic_sidebar( 'form-newsletter' ); ?>
+          <?php endif; ?>
+      </div>
+    </div>
     <div class="row section-padding">
-
       <?php
             $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 

@@ -31,10 +31,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6
 h1, h2
   @media #{$medium-and-down}
     font-size: 30px
-
+h3
+  font-size: 28px
 a
   color: $green
 //----------------------------------- GENERICS
+.module-title
+  font-size: 30px
+  &.blog
+    padding-top: 15px
 .vanished
   display: none
 .overHidden
@@ -75,6 +80,15 @@ a
   transition: all .3s ease-out
 .smooth-move-in
   transition: all .3s ease-in
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button 
+  -webkit-appearance: none;
+  margin: 0;
+input[type=checkbox]
+  position: relative !important
+  left: 0 !important
+  opacity: 1 !important
+
 input::-webkit-input-placeholder
   color: $placeholder-color
 input:-moz-placeholder
@@ -123,11 +137,13 @@ input:-ms-input-placeholder
           color: lighten($gray, 10%) 
     .button-collapse
       color: $darkGray
-
+  .search-navbar
+    height: 100px
+    display: none
   .brand-logo
     height: 80px
     width: 100%
-    background-image: url(./logo-hola-vida-w.png)
+    background-image: url(./logo-w.png)
     background-repeat: no-repeat
     background-size: contain
     background-position: center
@@ -156,14 +172,18 @@ input:-ms-input-placeholder
       background-color: white
       line-height: 60px
       box-shadow:  0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)
+      .search-navbar
+        height: 60px
+        display: block
       li
         a
-          color: lighten($darkGray, 30%)
+          color: $gray
+          //color: lighten($darkGray, 30%)
           &:hover
-            color: lighten($darkGray, 10%)
+            color: darken($gray, 10%)
         &.current-menu-item
           a
-            color: lighten($darkGray, 10%) 
+            color: darken($gray, 10%) 
           &.menu
             &-yellow
               a
@@ -177,7 +197,7 @@ input:-ms-input-placeholder
     .brand-logo
       height: 60px
       width: 100%
-      background-image: url(./logo-hola-vida.png)
+      background-image: url(./logo-g.png)
       background-repeat: no-repeat
       background-size: contain
       background-position: center
@@ -231,14 +251,14 @@ input:-ms-input-placeholder
           background-color: darken($green, 20%)
   &--caption
     position: absolute
-    bottom: 30%
+    bottom: 28%
     left: 15%
     right: 15%
     h1
       color: white
-      font-size: 50px
-      margin: 10px auto 100px
-      font-weight: bold
+      font-size: 40px
+      margin: 10px auto 30px
+      font-weight: $regular
     h3
       color: white
       font-size: 30px
@@ -361,7 +381,8 @@ input:-ms-input-placeholder
             opacity: 0
         p
           opacity: 1
-          margin-top: -80px
+          margin-top: -95px
+          color: #4d4d4d
   //Card Item  
 .product-item, .products
   li
@@ -370,8 +391,8 @@ input:-ms-input-placeholder
     &.product_cat
       
       &-armonizate
-        h3
-          color: darken($violet, 30%)
+        //h3
+          //color: darken($violet, 30%)
         .card-action
           .add_to_cart_button
           .yith-wcwl-add-to-wishlist
@@ -392,8 +413,8 @@ input:-ms-input-placeholder
           background-size: 25px
           background-repeat: no-repeat
       &-alimentate
-        h3
-          color: darken($yellow, 30%)
+        //h3
+          //color: darken($yellow, 30%)
         .card-action
           .add_to_cart_button
           .yith-wcwl-add-to-wishlist
@@ -414,8 +435,8 @@ input:-ms-input-placeholder
           background-size: 25px
           background-repeat: no-repeat
       &-muevete
-        h3
-          color: darken($green, 30%)
+        //h3
+          //color: darken($green, 30%)
         .card-action
           .add_to_cart_button
           .yith-wcwl-add-to-wishlist
@@ -435,7 +456,8 @@ input:-ms-input-placeholder
           background-position: center
           background-size: 25px
           background-repeat: no-repeat
-
+  .onsale
+    position: absolute
   .card-content
     text-align: center
     padding: 10px 15px 
@@ -451,6 +473,7 @@ input:-ms-input-placeholder
       text-align: left
       margin: 0
       font-size: 16px
+      color: black
   .card-details
     width: 100%
     display: block
@@ -481,7 +504,7 @@ input:-ms-input-placeholder
     font-size: 16px
     color: white
     padding: 5px 15px
-    background-color: lighten($darkGray, 5%)
+    background-color: $gray
   .card-action
     padding: 10px
     .btn
@@ -521,7 +544,55 @@ input:-ms-input-placeholder
           display: none
 
         
+
   //News 
+.newsletter-widget 
+  background-color: $yellow
+  padding: 15px
+  border-radius: 10px
+  margin-top: 20px
+  position: relative
+  .mc4wp-response
+    position: absolute
+    display: block
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    background-color: $yellow
+    font-size: 18px
+    padding: 15px
+    display: none
+  .mc4wp-form-fields
+    p
+      margin: 0
+      input
+        margin: 0
+        border-radius: 5px
+        padding: 0 8px
+        box-sizing: border-box
+        width: 100%
+        font-size: 14px
+      &:nth-child(2)
+        display: none
+  li
+    list-style-type: none
+  h2
+    font-size: 16px
+    width: 60%
+    display: inline-block
+  form  
+    width: 30%
+    display: inline-block
+    label
+      display: none
+  input
+    background-color: white  
+  &-left
+    h2, form
+      display: block
+      width: 100%
+//&-top
 .single-post
   &-content
     margin-top: 80px
@@ -590,8 +661,8 @@ input:-ms-input-placeholder
       position: absolute
       width: 40px
       height: 40px
-      top: 25px
-      right: 25px
+      top: 15px
+      right: 15px
       border-radius: 50%
       background-position: center
       background-size: 25px
@@ -612,9 +683,13 @@ input:-ms-input-placeholder
     height: auto
     max-height: 190px
     width: 100%
+    .onsale
+      display: none
   .card-content
     height: 90px
     overflow: hidden
+    p
+      color: black
     .card-title
       h3
         font-size: 16px
@@ -625,17 +700,46 @@ input:-ms-input-placeholder
       width: 100%
 
 //SHOP
-
+.not-found-products
+  p
+    margin: 10% 0
 .page
   margin-top: 60px
 .products-grid
   margin-top: 80px  
+  .onsale
+    display: none
 .single-product-add-to-cart-buttons
   .quantity
     display: none
   button
     width: 100%
 .single-product
+  .featured-media 
+    position: relative
+    &:after
+      content: ""
+      position: absolute
+      width: 50px
+      height: 50px
+      top: 25px
+      right: 25px
+      border-radius: 50%
+      background-position: center
+      background-size: 30px
+      background-repeat: no-repeat
+    &.alimentate
+      &:after
+        background-color: $yellow
+        background-image: url(./icono-alimentate.png)
+    &.armonizate
+      &:after
+        background-color: $violet
+        background-image: url(./icono-armonizate.png)
+    &.muevete
+      &:after
+        background-color: $green
+        background-image: url(./icono-muevete.png)
   .woocommerce-images
     float: none !important
     margin: auto
@@ -654,20 +758,47 @@ input:-ms-input-placeholder
     margin-top: 60px
   &-card
     position: relative
+    .onsale
+      display: none
     .images
       img
         width: 100%
         height: auto
+      .ywcfav_video_iframe
+        iframe
+          width: 100%
+          max-width: 540px
+          height: 360px
     .summary
-      //border: 1px solid lighten($gray, 20%)
+      .important-info
+        border: 1px solid lighten($gray, 20%)
+        padding:  0 15px
+        margin-bottom: 15px
+        h3
+          font-size: 22px
+      .attributes-list
+        li
+          list-style-type: none
+          margin: 5px 0
+          span
+            display: inline-block
+            font-weight: $bold
+            text-transform: capitalize
+          p
+            margin: 0
+            font-weight: $regular
+            display: inline-block
+            text-transform: normal
+            //&:before
+              //content: ":"
       .price
         position: absolute
         top: 15px
         left: 10px
-        font-size: 35px
+        font-size: 25px
         color: white
         padding: 5px 15px
-        background-color: lighten($darkGray, 10%)
+        background-color: $gray
         margin: 0
       div[itemprop="description"]
         margin-bottom: 15px
@@ -703,13 +834,69 @@ input:-ms-input-placeholder
             border-radius: 50%
       .secure-logo
         margin-top: 15px
-        width: 80%
+        width: 100%
         height: 50px
-        background-image: url(./sitio-seguro.png)
         background-repeat: no-repeat
         background-size: contain
         background-position: center
+        display: block 
+      .secure-logo-1
+        background-image: url(./sitio-seguro.png)
+      .secure-logo-2
+        background-image: url(./compra-segura.png)
+
+      .clear
+        display: none
+      .contact-summary-button
+        margin-top: 10px
+        border: 1px solid darken($violet, 20%)
+        float: right
         display: block
+        width: 50%
+        height: 30px
+        background-color: $violet
+        text-align: center
+
+        @extend .smooth-move
+        a
+          color: white
+          line-height: 30px
+          font-size: 12px
+          text-align: center
+          width: 100%
+          display: block
+        &:hover
+          background-color: darken($violet, 10%)
+      .yith-wcwl-add-to-wishlist
+        margin-top: 10px
+        border: 1px solid darken($violet, 20%)
+        float: left
+        display: block
+        width: 50%
+        height: 30px
+        background-color: $violet
+        text-align: center
+
+        @extend .smooth-move
+        &:hover
+          background-color: darken($violet, 10%)
+        &:before
+          content: ""
+          background: url(./favorite.png) center no-repeat 
+        .feedback
+          display: none
+        .yith-wcwl-add-button
+          text-align: center
+        a
+          color: white
+          line-height: 30px
+          font-size: 12px
+          text-align: center
+          width: 100%
+          display: block
+  .subtitle-related
+    margin-top: 0
+    font-size: 25px      
   .large-description
     h2
       margin-top: 0
@@ -745,6 +932,8 @@ input:-ms-input-placeholder
       margin-top: -20px
       display: none
   .card-product-info
+    height: 250px
+    overflow-y: scroll
     img
       border-radius 50%
     h2
@@ -1012,7 +1201,65 @@ input:-ms-input-placeholder
     margin: 0
     color: white
 
+
   //My account
+.form-login-myaccount
+  position: relative
+  padding-top: 50px
+  .wc-social-login
+    position: absolute
+    top: 0
+.btn-signin-forms
+  padding: 0 10px
+  background-color: $gray
+  &:hover
+    background-color: darken($gray, 10%)
+  &.active
+    background-color: darken($green, 10%)
+.wc-social-login    
+  width: 100%
+.ywsl-facebook
+  height: 50px
+  width: 100%
+  display: block
+  position: relative
+  background-color: #3b5998
+  border-radius: 5px
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)
+  transition: box-shadow .25s
+  &:hover
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+  &:after
+    content: "Facebook"
+    position: absolute
+    color: white
+    top: 50%
+    line-height: 30px
+    height: 30px
+    margin-top: -15px
+    font-size: 17px
+    left: 0
+    right: 0
+    text-align: center
+  img
+    left: 15px
+    height: 30px
+    top: 50%
+    margin-top: -15px
+    position: absolute
+
+
+.signin-form
+  .ywsl-facebook 
+    &:after
+      content: "Inicia sesión con Facebook" 
+.signup-form
+  display: none 
+  .form-row
+    display: none
+  .ywsl-facebook
+    &:after
+      content: "Regístrate con Facebook" 
 .woocommerce-MyAccount-navigation
   background-color: $green
   line-height: 60px
@@ -1053,6 +1300,20 @@ footer
     border-top: 1px solid darken($gray,15%)
     background-color: lighten($gray, 10%)
     color: darken($gray, 30%)
+  .footer-nav
+    font-size: 0
+    margin-bottom: 15px
+    li
+      display: inline-block
+      padding: 0 10px
+      border-left: 1px solid white
+      font-size: 15px
+      &:nth-child(1)
+        border-left: 0
+      a
+        color: white
+        text-align: center
+
   .social
     a
       width: 40px
@@ -1108,11 +1369,11 @@ footer
 //----------------------------------- 
 .cart_item
   .quantity
-    width: 70px
+    width: 30px
 .wishlist_table tr td.product-thumbnail a img
   height: auto
 .woocommerce .wishlist_table td.product-add-to-cart a
-  line-height: 54px
+  line-height: 36px
   padding: 0
   margin: 0
   color: white
@@ -1152,13 +1413,62 @@ footer
     right: 10px
     top: 50%
     margin-top: -12px 
+.search-navbar
+  width: 60px
+  height: 60px
+  @extend .smooth-move
+  &.close
+    .search-navbar-button
+      background: url(./delete.png) center no-repeat
+      background-size: 20px
+      
+  &-button
+    display: block
+    background: url(./icon-search.png) center no-repeat 
+    background-size: 30px
+    opacity: .4
+    width: 60px
+    height: 100%
+    cursor: pointer
+    @extend .smooth-move
+    &:hover
+      opacity: .9
+
+  &-form
+    position: fixed
+    top: 0
+    left: 15%
+    right: 15%
+    opacity: 0
+    background-color: white
+    z-index: 10
+    @extend .smooth-move
+    .yith-ajaxsearchform-container
+      &:after
+        display: none
+
+
+    &.show-search
+      top: 60px
+      opacity: 1
 footer
   padding: 30px 15px 15px
   .copyright, .contact, .terms
     margin: 5px 0
-    font-size: 18px
+    font-size: 13px
   .terms
     font-size: 18px
 
+
+.spinner
+  width: 30px
+  position: absolute
+  text-align: center
+  font-size: 18px
+  cursor: pointer
+  input[type=number]
+    height: 16px !important
+.spinner:hover
+  background: lightgrey
 
 

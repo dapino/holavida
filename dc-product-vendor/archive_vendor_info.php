@@ -26,7 +26,7 @@ $review_settings = get_option('wcmp_general_sellerreview_settings_name');
 			<?php $vendor_hide_description = get_user_meta($vendor_id,'_vendor_hide_description', true);
 				if(!$vendor_hide_description) { ?>
 					<div class="vendor-profile-bio valign">
-						<h1 class="vendor-title"><?php woocommerce_page_title(); ?></h1>
+						<h1 class="vendor-title "><?php woocommerce_page_title(); ?></h1>
 						<?php $string = $description; ?>
 						<?php echo stripslashes($string); ?>
 					</div>
@@ -37,7 +37,7 @@ $review_settings = get_option('wcmp_general_sellerreview_settings_name');
 <div class="container">
 	<div class="row">
 		<div class="col s12 ">
-			<h2 class="center-align">Experiencias creadas</h2>
+			<h2 class="center module-title text-dark-gray">Experiencias creadas</h2>
 		</div>
 	</div>
 </div>

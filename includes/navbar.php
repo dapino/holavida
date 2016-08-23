@@ -1,6 +1,6 @@
 <div class="navbar-fixed <?php if(is_front_page() ) { ?> up <?php } else { ?> down <?php } ?> " id="#navbar">
 	<nav>
-		<d,iv class="nav-wrapper">
+		<div class="nav-wrapper">
 			<div class="container">
 				<div class="row">
 					<a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -13,7 +13,7 @@
 							<?php endif; ?>
 						</a>
 					</div>
-					<div class="col m8">
+					<div class="col m7">
 						<?php
 									wp_nav_menu(
 										array(
@@ -26,6 +26,13 @@
 									);
 								?>
 					</div>
+							<div class="col m1">
+								
+								<div class="search-navbar" id="navbar-search-button">
+									<span class="search-navbar-button">
+									</span>
+								</div>
+							</div>
 					<div class="side-nav" id="mobile-menu">
 					<?php
 						wp_nav_menu(
@@ -45,4 +52,11 @@
 		</div>
 	</nav>
 </div>
+
+	<div class="search-navbar-form " id="navbar-search">
+		<?php if ( is_active_sidebar( 'search-widget' ) ) : ?>
+		<?php dynamic_sidebar( 'search-widget' ); ?>
+		<?php endif; ?>
+	</div>
+	
         
