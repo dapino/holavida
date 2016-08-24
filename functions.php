@@ -254,51 +254,155 @@ function slides_taxonomy() {
 }
 add_action( 'init', 'slides_taxonomy' );
 
+function mc_enqueue_scripts_styles() {
+  // Register.
+  wp_register_style( 'mc_user_avatar_css', get_stylesheet_directory_uri() . '/assets/css/woocommerce-user-avatar.css', false, '1.0.0', 'all' );
+  wp_register_script( 'mc_user_avatar_js', get_stylesheet_directory_uri() . '/assets/js/woocommerce-user-avatar.js' , array( 'jquery' ), '1.0.0', true );
 
+  // Enqueue.
+  wp_enqueue_style( 'mc_user_avatar_css' );
+  wp_enqueue_script( 'mc_user_avatar_js' );
+}
 
+add_action( 'wp_enqueue_scripts', 'mc_enqueue_scripts_styles' );
 
- 
-add_action( 'woocommerce_edit_account_form', 'my_woocommerce_edit_account_form' );
-add_action( 'woocommerce_save_account_details', 'my_woocommerce_save_account_details' );
- 
-function my_woocommerce_edit_account_form() {
- 
-  $user_id = get_current_user_id();
-  $user = get_userdata( $user_id );
+function mc_edit_user_form( ){
+
+  // vars
+  $user_id         = get_current_user_id();
+  $user            = get_userdata( $user_id );
  
   if ( !$user )
     return;
- 
-  $twitter = get_user_meta( $user_id, 'twitter', true );
-  $url = $user->user_url;
- 
+  $url             = get_the_author_meta( 'mc_meta', $user->ID );
+  $upload_url      = get_the_author_meta( 'mc_upload_meta', $user->ID );
+  $upload_edit_url = get_the_author_meta( 'mc_upload_edit_meta', $user->ID );
+  $user_bio        = get_the_author_meta( 'mc_user_bio', $user->ID );
+  $button_text     = $upload_url ? 'Change Current Image' : 'Upload New Image';
+
+  if ( $upload_url ) {
+    $upload_edit_url = get_site_url() . $upload_edit_url;
+  }
   ?>
- 
   <fieldset>
-    <legend>Social information</legend>
-    <p>Fill in this information about your social media accounts.</p>
-    <p class="form-row form-row-thirds">
-      <label for="twitter">Twitter Username:</label>
-      <input type="text" name="twitter" value="<?php echo esc_attr( $twitter ); ?>" class="input-text" />
+    <legend><?php _e( 'User Profile Photo', 'woocommerce' ); ?></legend>
+
+    <table class="form-table">
+      <tr>
+        <td><label for="mc_meta"><?php _e( 'Profile Photo', 'woocommerce' ); ?></label></td>
+        <td>
+          <!-- Outputs the image after save -->
+          <div id="current_img">
+            <?php if ( $upload_url ): ?>
+              <img class="mc-current-img" src="<?php echo esc_url( $upload_url ); ?>"/>
+
+              <div class="edit_options uploaded">
+                <a class="remove_img">
+                  <span><?php _e( 'Remove', 'woocommerce' ); ?></span>
+                </a>
+
+                <a class="edit_img" href="<?php echo esc_url( $upload_edit_url ); ?>" target="_blank">
+                  <span><?php _e( 'Edit', 'woocommerce' ); ?></span>
+                </a>
+              </div>
+            <?php elseif ( $url ) : ?>
+              <img class="mc-current-img" src="<?php echo esc_url( $url ); ?>"/>
+              <div class="edit_options single">
+                <a class="remove_img" title="Remove">
+                  <span><?php _e( 'Remove', 'woocommerce' ); ?></span>
+                </a>
+              </div>
+            <?php else : ?>
+              <img class="mc-current-img placeholder"
+                   src="<?php echo esc_url( plugins_url( 'woocommerce/assets/images/placeholder.png' ) ); ?>"/>
+            <?php endif; ?>
+          </div>
+
+          <!-- Hold the value here if this is a WPMU image -->
+          <div id="mc_upload">
+            <input class="hidden" type="hidden" name="mc_placeholder_meta" id="mc_placeholder_meta"
+                   value="<?php echo esc_url( plugins_url( 'woocommerce/assets/images/placeholder.png' ) ); ?>"/>
+            <input type="file" name="thumbnail" id="thumbnail">
+            <br/>
+          </div>
+          <p class="description">
+            <?php _e( 'Update Profile to save your changes.', 'woocommerce' ); ?>
+          </p>
+        </td>
+      </tr>
+    </table><!-- end form-table -->
+  </fieldset>
+  <div class="clear"></div>
+  <fieldset>
+    <legend><?php _e( 'User Bio', 'woocommerce' ); ?></legend>
+    <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+      <label for="password_current"><?php _e( 'Bio (leave blank to leave unchanged)', 'woocommerce' ); ?></label>
+      <textarea class="woocommerce-Input materialize-textarea" name="mc_bio" id="mc_bio" cols="30" rows="10"><?php echo $user_bio; ?></textarea>
     </p>
   </fieldset>
- 
-  <fieldset>
-    <legend>Additional Information</legend>
-    <p class="form-row form-row-thirds">
-      <label for="url">Website:</label>
-      <input type="text" name="url" value="<?php echo esc_attr( $url ); ?>" class="input-text" />
-    </p>
-  </fieldset>
- 
+  <div class="clear"></div>
+  <?php 
+}
+add_action( 'woocommerce_edit_account_form', 'mc_edit_user_form' );
+
+function mc_save_user_form( $user_id ) {
+  if ( ! function_exists( 'wp_handle_upload' ) ) {
+    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+  }
+
+  if (!empty($_FILES['thumbnail'])) {
+    $uploadedfile = $_FILES['thumbnail'];
+
+    $upload_overrides = array( 'test_form' => false );
+
+    $movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
+
+    if ( $movefile && ! isset( $movefile['error'] ) ) {
+        $mc_meta = $movefile['url'];
+    } else {
+        $mc_meta = '';
+        /**
+         * Error generated by _wp_handle_upload()
+         * @see _wp_handle_upload() in wp-admin/includes/file.php
+         */
+        // echo $movefile['error'];
+    }
+  }
+
+  $values = array(
+    'mc_meta'     => $movefile['url'],
+    'mc_user_bio' => filter_input( INPUT_POST, 'mc_bio', FILTER_SANITIZE_STRING ),
+  );
+
+  foreach ( $values as $key => $value ) {
+    update_user_meta( $user_id, $key, $value );
+  }
+}
+add_action( 'woocommerce_save_account_details', 'mc_save_user_form' );
+
+
+function mc_get_user_avatar() {
+  $user_id         = get_current_user_id();
+  $user            = get_userdata( $user_id );
+
+  $mc_user_avatar = esc_url( get_the_author_meta( 'mc_meta', $user_id ) );
+
+  ?>
+  <div class="userAvatar"><img src="<?php echo $mc_user_avatar; ?>"></div>
   <?php
- 
 }
- 
-function my_woocommerce_save_account_details( $user_id ) {
- 
-  update_user_meta( $user_id, 'twitter', htmlentities( $_POST[ 'twitter' ] ) );
- 
-  $user = wp_update_user( array( 'ID' => $user_id, 'user_url' => esc_url( $_POST[ 'url' ] ) ) );
- 
+add_action( 'woocommerce_before_account_navigation', 'mc_get_user_avatar' );
+
+function mc_get_user_bio() {
+  $user_id         = get_current_user_id();
+  $user            = get_userdata( $user_id );
+
+  // Check first for a custom uploaded image.
+  $mc_user_bio = get_the_author_meta( 'mc_user_bio', $user_id );
+
+  $mc_user_bio ? $mc_user_bio : '';
+  ?>
+  <div class="userBio"><?php echo $mc_user_bio; ?></div>
+  <?php 
 }
+add_action( 'woocommerce_before_account_navigation', 'mc_get_user_bio' );
