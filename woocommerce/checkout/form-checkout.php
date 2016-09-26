@@ -1,21 +1,4 @@
 <?php
-/**
- * Checkout Form
- *
- * This template can be overridden by copying it to yourtheme/woocommerce/checkout/form-checkout.php.
- *
- * HOWEVER, on occasion WooCommerce will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
- *
- * @see 	    https://docs.woothemes.com/document/template-structure/
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     2.3.0
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -31,40 +14,66 @@ if ( ! $checkout->enable_signup && ! $checkout->enable_guest_checkout && ! is_us
 }
 
 ?>
-<div class="padding-bottom">
-	
+
 
 <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
+	<div class="row checkout-step" id="step-3">
+		<ul class="multi-step-bar">
+			<li>Carrito</li>
+			<?php  if ( !is_user_logged_in() ) { ?><li>Ingreso</li><?php  } ?>
+			<li  class="active">Datos de compra</li>
+			<li>Confirmación de pago</li>
+		</ul>
+		<div class="col l8 m8 offset-l2 offset-m2 s12">
 
-	<?php if ( sizeof( $checkout->checkout_fields ) > 0 ) : ?>
+			<?php if ( sizeof( $checkout->checkout_fields ) > 0 ) : ?>
 
-		<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
-	
-<div class="row" id="customer_details">
-	<div class="col m6 s12">
-			<?php do_action( 'woocommerce_checkout_billing' ); ?>
+				<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
+
+				<?php do_action( 'woocommerce_checkout_billing' ); ?>
+
+				<?php do_action( 'woocommerce_checkout_shipping' ); ?>
+
+				<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
+
+			<?php endif; ?>
+		</div>	
+		<div class="col l8 m8 s12 offset-l2 offset-m2 center-align">
+			<a class="btn prev-button gray-bg left" id="button-to-2-2">
+				Anterior
+			</a>
+			<a class="btn next-button gray-bg right" id="button-to-4">
+				Siguiente
+			</a>
 		</div>
-		<div class="col m6 s12">
-			<?php do_action( 'woocommerce_checkout_shipping' ); ?>
+	</div>	
 
-			<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
+	<div class="row checkout-step" id="step-4">
+		<ul class="multi-step-bar">
+			<li>Carrito</li>
+			<?php if ( !is_user_logged_in() ) { ?><li>Ingreso</li><?php  } ?>
+			<li>Datos de compra</li>
+			<li class="active">Confirmación de pago</li>
+		</ul>
+		<div class="col l8 m8 offset-l2 offset-m2 s12">
 
-		<?php endif; ?>
-		
-		<h3 id="order_review_heading"><?php _e( 'Your order', 'woocommerce' ); ?></h3>
+			<h3 id="order_review_heading"><?php _e( 'Your order', 'woocommerce' ); ?></h3>
 
-		<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
+			<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
 
-		<div id="order_review" class="woocommerce-checkout-review-order">
 			<?php do_action( 'woocommerce_checkout_order_review' ); ?>
+
+
+			<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
 		</div>
+		<div class="col l8 m8 s12 offset-l2 offset-m2 center-align">
+			<a class="btn prev-button gray-bg left" id="button-to-3">
+				Anterior
+			</a>
 
-	</div>
-</div>
-		
-	<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
-
+		</div>
+	</div>	
 </form>
 
 <?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>
-</div>
+

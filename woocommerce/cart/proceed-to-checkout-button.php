@@ -24,5 +24,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <a href="<?php echo esc_url( wc_get_checkout_url() ) ;?>" class=" right waves-effect waves-light btn btn-large yellow-bg">
-	<?php echo __( 'Proceed to Checkout', 'woocommerce' ); ?>
+	Continuar
 </a>

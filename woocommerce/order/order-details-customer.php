@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<header><h2><?php _e( 'Customer Details', 'woocommerce' ); ?></h2></header>
+<h3 class="header-welcome center"><?php _e( 'Customer Details', 'woocommerce' ); ?></h3>
 
 <table class="shop_table customer_details">
 	<?php if ( $order->customer_note ) : ?>

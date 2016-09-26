@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?></p>
 
 <?php if ( $notes = $order->get_customer_order_notes() ) : ?>
-	<h2><?php _e( 'Order Updates', 'woocommerce' ); ?></h2>
+	<h3 class="header-welcome"><?php _e( 'Order Updates', 'woocommerce' ); ?></h3>
 	<ol class="woocommerce-OrderUpdates commentlist notes">
 		<?php foreach ( $notes as $note ) : ?>
 		<li class="woocommerce-OrderUpdate comment note">

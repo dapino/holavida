@@ -39,7 +39,7 @@ global $post, $product, $woocommerce_loop;
 	<div class="row single-product-header ">
 		<div class="col l7 m7 s12 overHidden ">
 			<?php the_title( '<h1 itemprop="name" class="product_title entry-title">', '</h1>' );?>
-		<?php echo $product->get_categories( ', ', '<span class="posted_in">' . ' ', '</span>' ); ?>
+			<?php echo $product->get_categories( ', ', '<span class="posted_in">' . ' ', '</span>' ); ?>
 		</div>		
 		<div class="col l5 m5 s12">
 			<?php //if ( is_active_sidebar( 'search-widget' ) ) : ?>
@@ -127,14 +127,14 @@ global $post, $product, $woocommerce_loop;
 				 */
 				do_action( 'woocommerce_single_product_summary' );
 			?>
-				<div class="contact-summary-button">
+				<!--<div class="contact-summary-button">
 					<a href="#">
 						Contáctenos
 					</a>
-				</div>
+				</div>-->
 
 
-			<div class="row">
+			<!--<div class="row">
 			
 			
 				<div class="col l8 s12">
@@ -144,18 +144,21 @@ global $post, $product, $woocommerce_loop;
 					<span class="secure-logo secure-logo-1"></span>
 				</div>
 				
-			</div>
+			</div>-->
 		</div><!-- .summary -->
 	</div>
 	<div class="row">
  
 		<!-- Descripción --> 
-		<div class="col l6 m6 s12 large-description">
-			  <h3 class="subtitle-related"><?php echo get_post_meta( get_the_ID(), 'tituloDescripcion', true ); ?>			  	
+		<div class="col l7 m7 s12 large-description">
+			  <h3 class="subtitle-related">
+			  <?php  $titleField = get_post_meta( $post->ID, 'tituloDescripcion', true ); ?>
+			  <?php echo get_post_meta( get_the_ID(), 'tituloDescripcion', true ); ?>		
+			  <?php if( empty( $titleField) ) : ?>Descripción<?php endif; ?>
 			  </h3>
 			<?php the_content(); ?>
 		</div>
-		<div class="col l6 m6 s12">
+		<div class="col l5 m5 s12">
 			  <h3 class="subtitle-related">Artículos relacionados			  	
 			  </h3>
 		<?php 
@@ -175,6 +178,7 @@ global $post, $product, $woocommerce_loop;
         $cats = get_the_category();
 				$cat_name = $cats[0]->name;
           ?>
+
         <div class="mini-card hoverable news-item post-<?php echo $product_cat ?>">
           <a href="<?php the_permalink(); ?>">
           	<div class="row">
@@ -185,7 +189,7 @@ global $post, $product, $woocommerce_loop;
 	              <span class="mini-card-title">
 	                <h3><?php the_title(); ?></h3>
 	              </span>
-	                <p><?php echo get_the_author(); ?> </p> 
+	                <p class="mini-card-author"><?php echo get_the_author(); ?> </p> 
 	            </div>
           	</div>
           </a>
@@ -196,8 +200,7 @@ global $post, $product, $woocommerce_loop;
 	</div>
 
 	<div class="row">
-		<!-- .vendedor --> 
-		<div class="col l6 m6 s12">
+		<div class="col l7 m7 s12">
       <div class="card card-product-info card-comments gray-bg-light">
 			  <div class="card-content">
 			  <?php 
@@ -209,7 +212,7 @@ global $post, $product, $woocommerce_loop;
 
 
 		</div>
-		<div class="col l6 m6 s12">
+		<div class="col l5 m5 s12">
 			<div class="card card-product-info card-vendor gray-bg-light">
 			  <div class="card-content">
 					<?php

@@ -22,6 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 wc_print_notices(); ?>
 
+	<div class="col l4 m4 s12 offset-l4 offset-m3 login-box">
+
+
 <form method="post" class="woocommerce-ResetPassword lost_reset_password">
 
 	<p><?php echo apply_filters( 'woocommerce_lost_password_message', __( 'Lost your password? Please enter your username or email address. You will receive a link to create a new password via email.', 'woocommerce' ) ); ?></p>
@@ -37,9 +40,11 @@ wc_print_notices(); ?>
 
 	<p class="woocommerce-FormRow form-row">
 		<input type="hidden" name="wc_reset_password" value="true" />
-		<input type="submit" class="woocommerce-Button button" value="<?php esc_attr_e( 'Reset Password', 'woocommerce' ); ?>" />
+		<input type="submit" class="btn btn-small gray-bg" value="<?php esc_attr_e( 'Reset Password', 'woocommerce' ); ?>" />
 	</p>
 
 	<?php wp_nonce_field( 'lost_password' ); ?>
 
 </form>
+
+	</div>

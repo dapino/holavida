@@ -26,9 +26,24 @@ wc_print_notices();
  * My Account navigation.
  * @since 2.6.0
  */
+$user_id         = get_current_user_id();
+$user            = get_userdata( $user_id );
+?>
+
+
+
+
+      
+  <div class="center">
+    <h3 class=" h2 vendor-title ">
+      <?php echo "<div id='header-welcome'>Bienvenido ". $user->display_name ."</div>"; ?>
+    </h3>
+
+  </div>
+<?php
 do_action( 'woocommerce_account_navigation' ); ?>
 
-<div class="woocommerce-MyAccount-content">
+<div class="woocommerce-MyAccount-content col l8 m10 s12 offset-l2 offset-m1">
 	<?php
 		/**
 		 * My Account content.

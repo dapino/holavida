@@ -98,11 +98,34 @@ function woo_archive_custom_cart_button_text() {
   return __( 'Vivir experiencia', 'woocommerce' );
 }
 
+
+
 function cambiar_productos_por_pagina() {
 return 12;
 }
 add_filter( 'loop_shop_per_page', 'cambiar_productos_por_pagina' );
 
+
+
+if ( !function_exists( 'of_get_option' ) ) {
+function of_get_option($name, $default = false) {
+
+  $optionsframework_settings = get_option('optionsframework');
+
+  // Gets the unique option id
+  $option_name = $optionsframework_settings['id'];
+
+  if ( get_option($option_name) ) {
+      $options = get_option($option_name);
+    }
+
+    if ( isset($options[$name]) ) {
+      return $options[$name];
+    } else {
+      return $default;
+    }
+  }
+}
 
 
 function define_widgets() {
@@ -130,7 +153,7 @@ add_action( 'widgets_init', 'define_widgets' );
 
 
 remove_action( 'load-update-core.php', 'wp_update_plugins' );
- add_filter( 'pre_site_transient_update_plugins', create_function( '$a', "return null;" ) );
+add_filter( 'pre_site_transient_update_plugins', create_function( '$a', "return null;" ) );
 add_filter('auto_update_core', '__return_false');
 add_filter( 'auto_update_plugin', '__return_false' );
 add_filter( 'auto_update_theme', '__return_false' );
@@ -142,7 +165,7 @@ add_filter( 'woocommerce_add_to_cart_fragments', 'woocommerce_header_add_to_cart
 function my_custom_menu() {
   add_menu_page ( 'Blog', 'Blog', 'read', 'edit.php', '', '', 1);
 }
-//add_action( 'admin_menu', 'my_custom_menu'); 
+add_action( 'admin_menu', 'my_custom_menu'); 
 function woocommerce_header_add_to_cart_fragment( $fragments ) {
   ob_start();
   ?>
@@ -163,6 +186,13 @@ function jk_dequeue_styles( $enqueue_styles ) {
   return $enqueue_styles;
 }
 
+
+function wc_ninja_remove_password_strength() {
+  if ( wp_script_is( 'wc-password-strength-meter', 'enqueued' ) ) {
+    wp_dequeue_script( 'wc-password-strength-meter' );
+  }
+}
+add_action( 'wp_print_scripts', 'wc_ninja_remove_password_strength', 100 );
 
   //add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
 
@@ -212,6 +242,18 @@ add_action( 'wp_enqueue_scripts', 'theme_scripts' );
 
 
 
+//add_filter('woocommerce_login_redirect', 'wc_login_redirect');
+ 
+//function wc_login_redirect( $redirect_to ) {
+    //$redirect_to =  '/my-account/orders/';
+     //return $redirect_to;
+//}
+//add_filter('woocommerce_registration_redirect', 'wc_register_redirect');
+//function wc_register_redirect( $redirect_up ) {
+  //   $redirect_up = '/my-account/edit-account/';
+  //   return $redirect_up;
+//}
+
 
 //Custom Post Type slide
 function slides_taxonomy() {
@@ -254,17 +296,146 @@ function slides_taxonomy() {
 }
 add_action( 'init', 'slides_taxonomy' );
 
-function mc_enqueue_scripts_styles() {
-  // Register.
-  wp_register_style( 'mc_user_avatar_css', get_stylesheet_directory_uri() . '/assets/css/woocommerce-user-avatar.css', false, '1.0.0', 'all' );
-  wp_register_script( 'mc_user_avatar_js', get_stylesheet_directory_uri() . '/assets/js/woocommerce-user-avatar.js' , array( 'jquery' ), '1.0.0', true );
+global $woocommerce; 
 
-  // Enqueue.
-  wp_enqueue_style( 'mc_user_avatar_css' );
-  wp_enqueue_script( 'mc_user_avatar_js' );
+
+
+                 
+
+
+class My_Custom_My_Account_Endpoint {
+  /**
+   * Custom endpoint name.
+   *
+   * @var string
+   */
+  public static $endpoint = 'my-wishlist';
+  public function __construct() {
+    // Actions used to insert a new endpoint in the WordPress.
+    add_action( 'init', array( $this, 'add_endpoints' ) );
+    add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
+    // Change the My Accout page title.
+    add_filter( 'the_title', array( $this, 'endpoint_title' ) );
+    // Insering your new tab/page into the My Account page.
+    add_filter( 'woocommerce_account_menu_items', array( $this, 'new_menu_items' ) );
+    add_action( 'woocommerce_account_' . self::$endpoint .  '_endpoint', array( $this, 'endpoint_content' ) );
+  }
+  public function add_endpoints() {
+    add_rewrite_endpoint( self::$endpoint, EP_ROOT | EP_PAGES );
+  }
+  /**
+   * Add new query var.
+   *
+   * @param array $vars
+   * @return array
+   */
+  public function add_query_vars( $vars ) {
+    $vars[] = self::$endpoint;
+    return $vars;
+  }
+  /**
+   * Set endpoint title.
+   *
+   * @param string $title
+   * @return string
+   */
+  public function endpoint_title( $title ) {
+    global $wp_query;
+    $is_endpoint = isset( $wp_query->query_vars[ self::$endpoint ] );
+    if ( $is_endpoint && ! is_admin() && is_main_query() && in_the_loop() && is_account_page() ) {
+      // New page title.
+      $title = __( 'Lista de deseos', 'woocommerce' );
+      remove_filter( 'the_title', array( $this, 'my-wishlist' ) );
+    }
+    return $title;
+  }
+  /**
+   * Insert the new endpoint into the My Account menu.
+   *
+   * @param array $items
+   * @return array
+   */
+  public function new_menu_items( $items ) {
+    // Remove the logout menu item.
+    $logout = $items['customer-logout'];
+    unset( $items['customer-logout'] );
+    // Insert your custom endpoint.
+    $items[ self::$endpoint ] = __( 'my-wishlist', 'woocommerce' );
+    // Insert back the logout item.
+    $items['customer-logout'] = $logout;
+    return $items;
+  }
+  /**
+   * Endpoint HTML content.
+   */
+  public function endpoint_content() {
+    //wc_get_template( 'myaccount/navigation.php' ); ?>
+
+    <div class="woocommerce-MyAccount-content">
+      <?php echo do_shortcode('[yith_wcwl_wishlist]' );?> 
+    </div>
+
+    <?php
+  }
+  /**
+   * Plugin install action.
+   * Flush rewrite rules to make our custom endpoint available.
+   */
+  public static function install() {
+    flush_rewrite_rules();
+  }
 }
+new My_Custom_My_Account_Endpoint();
+// Flush rewrite rules on plugin activation.
+register_activation_hook( __FILE__, array( 'My_Custom_My_Account_Endpoint', 'install' ) );
 
-add_action( 'wp_enqueue_scripts', 'mc_enqueue_scripts_styles' );
+
+
+
+
+
+function wpb_woo_my_account_order() {
+  $myorder = array(
+    'orders'             => __( 'Mis experiencias', 'woocommerce' ),
+    'my-wishlist' => __( 'Lista de deseos', 'woocommerce' ),
+    'edit-account'       => __( 'Editar perfil', 'woocommerce' ),
+    'edit-address'       => __( 'Información de faturación', 'woocommerce' ),
+    'customer-logout'    => __( 'Cerrar sesión', 'woocommerce' ),
+  );
+  return $myorder;
+}
+add_filter ( 'woocommerce_account_menu_items', 'wpb_woo_my_account_order' );
+
+
+function wpb_woo_endpoint_title( $title, $id ) {
+  if ( is_wc_endpoint_url( 'downloads' ) && in_the_loop() ) { // add your endpoint urls
+    $title = "Mis experiencias"; // change your entry-title
+  }
+  elseif ( is_wc_endpoint_url( 'orders' ) && in_the_loop() ) {
+    $title = "Mis experiencias";
+  }
+  elseif ( is_wc_endpoint_url( 'my-wishlist' ) && in_the_loop() ) {
+    $title = "Lista de deseos";
+  }
+  elseif ( is_wc_endpoint_url( 'edit-account' ) && in_the_loop() ) {
+    $title = "Editar perfil";
+  }
+  elseif ( is_wc_endpoint_url( 'edit-address' ) && in_the_loop() ) {
+    $title = "Información de facturación";
+  }
+  elseif ( is_wc_endpoint_url( 'edit-account' ) && in_the_loop() ) {
+    $title = "Editar perfil";
+  }
+
+  return $title;
+}
+add_filter( 'the_title', 'wpb_woo_endpoint_title', 10, 2 );
+
+
+
+
+
+
 
 function mc_edit_user_form( ){
 
@@ -285,12 +456,11 @@ function mc_edit_user_form( ){
   }
   ?>
   <fieldset>
-    <legend><?php _e( 'User Profile Photo', 'woocommerce' ); ?></legend>
+    <legend>Información básica</legend>
 
     <table class="form-table">
       <tr>
-        <td><label for="mc_meta"><?php _e( 'Profile Photo', 'woocommerce' ); ?></label></td>
-        <td>
+        <td><label for="mc_meta">Foto de perfil</label>
           <!-- Outputs the image after save -->
           <div id="current_img">
             <?php if ( $upload_url ): ?>
@@ -298,18 +468,18 @@ function mc_edit_user_form( ){
 
               <div class="edit_options uploaded">
                 <a class="remove_img">
-                  <span><?php _e( 'Remove', 'woocommerce' ); ?></span>
+                  <span>Eliminar</span>
                 </a>
 
                 <a class="edit_img" href="<?php echo esc_url( $upload_edit_url ); ?>" target="_blank">
-                  <span><?php _e( 'Edit', 'woocommerce' ); ?></span>
+                  <span>Editar</span>
                 </a>
               </div>
             <?php elseif ( $url ) : ?>
               <img class="mc-current-img" src="<?php echo esc_url( $url ); ?>"/>
               <div class="edit_options single">
                 <a class="remove_img" title="Remove">
-                  <span><?php _e( 'Remove', 'woocommerce' ); ?></span>
+                  <span>Eliminar</span>
                 </a>
               </div>
             <?php else : ?>
@@ -325,22 +495,11 @@ function mc_edit_user_form( ){
             <input type="file" name="thumbnail" id="thumbnail">
             <br/>
           </div>
-          <p class="description">
-            <?php _e( 'Update Profile to save your changes.', 'woocommerce' ); ?>
-          </p>
+          
         </td>
       </tr>
     </table><!-- end form-table -->
-  </fieldset>
-  <div class="clear"></div>
-  <fieldset>
-    <legend><?php _e( 'User Bio', 'woocommerce' ); ?></legend>
-    <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
-      <label for="password_current"><?php _e( 'Bio (leave blank to leave unchanged)', 'woocommerce' ); ?></label>
-      <textarea class="woocommerce-Input materialize-textarea" name="mc_bio" id="mc_bio" cols="30" rows="10"><?php echo $user_bio; ?></textarea>
-    </p>
-  </fieldset>
-  <div class="clear"></div>
+  
   <?php 
 }
 add_action( 'woocommerce_edit_account_form', 'mc_edit_user_form' );
@@ -381,6 +540,8 @@ function mc_save_user_form( $user_id ) {
 add_action( 'woocommerce_save_account_details', 'mc_save_user_form' );
 
 
+
+
 function mc_get_user_avatar() {
   $user_id         = get_current_user_id();
   $user            = get_userdata( $user_id );
@@ -388,7 +549,14 @@ function mc_get_user_avatar() {
   $mc_user_avatar = esc_url( get_the_author_meta( 'mc_meta', $user_id ) );
 
   ?>
-  <div class="userAvatar"><img src="<?php echo $mc_user_avatar; ?>"></div>
+<div class="container vendor-profile">
+  <div class="row">
+    <div class="col l3 m4 s12">
+      <div class="vendor-profile-img valign-wrapper">
+        <div class="userAvatar"><img src="<?php echo $mc_user_avatar; ?>"></div>
+        
+      </div>
+    </div>
   <?php
 }
 add_action( 'woocommerce_before_account_navigation', 'mc_get_user_avatar' );
@@ -402,7 +570,19 @@ function mc_get_user_bio() {
 
   $mc_user_bio ? $mc_user_bio : '';
   ?>
-  <div class="userBio"><?php echo $mc_user_bio; ?></div>
+    <div class="col l9 m8 s12 valign-wrapper">
+      
+      <div class="vendor-profile-bio valign">
+        <h2 class=" h2 vendor-title ">
+          <?php echo "<div id='header-welcome'>Bienvenido ". $user->display_name ."</div>"; ?>
+        </h2>
+          <div class="userBio"><?php echo $mc_user_bio; ?></div>
+        
+      </div>
+    </div>
+  </div>
+</div>
   <?php 
 }
 add_action( 'woocommerce_before_account_navigation', 'mc_get_user_bio' );
+

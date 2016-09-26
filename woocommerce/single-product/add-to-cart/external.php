@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
 
 <p class="cart">
-	<a href="<?php echo esc_url( $product_url ); ?>" rel="nofollow" class="single_add_to_cart_button button alt waves-effect waves-light btn btn-large yellow-bg">COMPRAR EXPERIENCIA ?></a>
+	<a href="<?php echo esc_url( $product_url ); ?>" rel="nofollow" class="single_add_to_cart_button button alt waves-effect waves-light btn btn-large yellow-bg">VIVIR EXPERIENCIA ?></a>
 </p>
 
 <?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>

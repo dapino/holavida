@@ -23,7 +23,7 @@
     "json-file": "^0.1.0",
     "node-fs": "^0.1.7"
   },
-  "themeName": "Amashop",
+  "themeName": "Experiencias Saludables",
   "dependencies": {
     "gulp-sass": "^2.3.2",
     "stylus-material": "^1.4.3"

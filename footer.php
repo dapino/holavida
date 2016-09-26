@@ -1,4 +1,5 @@
-		<footer class="gray-bg">
+		</main>
+		<footer class="gray-bg ">
 			<div class="container">
 				<div class="row">
 						

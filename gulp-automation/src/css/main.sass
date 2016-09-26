@@ -2,8 +2,10 @@
 //----------------------------------- IMPORTS
 
 @import "./materialize/materialize"; 
-@import "./owl/owl.carousel";
-@import "./owl/owl.theme.default";
+@import "./owl/owl.carousel.css";
+@import "./owl/owl.theme.css";
+@import "./owl/owl.transitions.css";
+@import "./user-avatar";
 
 //----------------------------------- VARIABLES
 $placeholder-color: lighten($darkGray, 20%)
@@ -21,6 +23,14 @@ $violet: rgba(187,147,185,1);
 $green: rgba(132,199,189,1);
 //----------------------------------- TAGS
 
+body
+  display: flex
+  min-height: 100vh
+  flex-direction: column
+
+main
+  flex: 1 0 auto
+
 body, html 
   height: 100%
   margin: 0
@@ -36,6 +46,11 @@ h3
 a
   color: $green
 //----------------------------------- GENERICS
+.alert
+  padding: 15px
+  border: 1px solid $violet
+  color: $gray
+  margin: 10px 0
 .module-title
   font-size: 30px
   &.blog
@@ -84,6 +99,8 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button 
   -webkit-appearance: none;
   margin: 0;
+input[type=number]  
+  -moz-appearance: textfield
 input[type=checkbox]
   position: relative !important
   left: 0 !important
@@ -99,6 +116,10 @@ input:-ms-input-placeholder
   color: $placeholder-color
 
 //----------------------------------- MODULES
+.show-on-med-and-down
+  display: none
+  @media #{$medium-and-down}
+    display: block
   //Navbar
 .term-armonizate
   .navbar-fixed
@@ -114,9 +135,12 @@ input:-ms-input-placeholder
       border-bottom: 1px solid $green
 .nav-wrapper
   overflow: hidden
+  @media #{$medium-and-down}
+    overflow: initial
 .navbar-fixed
   top: 0
-  
+  .showMenu
+    display: none
   nav
     line-height: 100px
     overflow: hidden
@@ -125,8 +149,8 @@ input:-ms-input-placeholder
       a
         color: lighten($gray, 90%)
         transition: color .3s ease
-        font-size: 16px
-        padding: 0 10px
+        font-size: 18px
+        padding: 0 8px
         transition: background-color .3s ease
         transition: color .3s ease
         &:hover
@@ -141,7 +165,7 @@ input:-ms-input-placeholder
     height: 100px
     display: none
   .brand-logo
-    height: 80px
+    height: 60px
     width: 100%
     background-image: url(./logo-w.png)
     background-repeat: no-repeat
@@ -154,6 +178,11 @@ input:-ms-input-placeholder
       width: 100%
       height: auto
       opacity: 0
+  .button-login
+    margin-top: 25px
+    @extend .smooth-move
+    .userLink
+      color: lighten($gray, 90%)
   /*&.down
     height: 60px
     nav
@@ -167,6 +196,10 @@ input:-ms-input-placeholder
         height: 60px*/
   &.down
     height: 60px
+    .button-login
+      margin-top: 8px
+      .userLink
+        color: $gray
     nav
       height: 60px
       background-color: white
@@ -203,53 +236,156 @@ input:-ms-input-placeholder
       background-position: center
       display: block
       margin-top: 0
+.mobile-menu 
+  display: block
+  position: fixed
+  top: -100%
+  opacity: 0
+  background-color: white
+  z-index: 9
+  left: 0
+  right: 0
+  text-align: center
+  @extend .smooth-move
+  ul
+    margin: 0
+  li
+    a
+      color: $gray
+      display: block
+      padding: 10px 0
+      border-bottom: 1px solid lighten($gray, 40%)
+  &.show
+    top: 60px
+    opacity: .9
+.mobile-nav
+  height: 60px 
+  top: 0
+  .button-collapse
+    color: $darkGray
+  .search-navbar
+    display: none
+  .brand-logo
+    height: 60px
+    width: 100%
+    margin-top: 0
+    background-position: center left
+    background-image: url(./logo-mobile-w.png)
+  .showMenu
+    display: block 
+    width: 40px
+    height: 40px
+    position: absolute
+    right: 5px
+    border-radius: 50%
+    top: 0
+    margin-top: 10px
+    background-image: url(./menu.png)
+    background-position: center
+    background-size: 40px 40px
+    background-color: transparent
+  .button-login
+    width: 40px
+    height: 40px
+    position: absolute
+    right: 50px
+    border-radius: 50%
+    top: 0
+    margin-top: 10px
+    background-image: url(./user.png)
+    background-position: center
+    background-size: 40px 40px
+    background-color: transparent
+    overflow: hidden
+    .userAvatar, .userLink
+      opacity: 0
+  .search-navbar
+    position: absolute
+    right: 80px
+    display: none
+    &-button
+      opacity: 1  
+      height: 40px
+      border: 2px solid $darkGray
+      width: 40px
+      margin-top: 10px
+      border-radius: 50%
+
+  &.down
+    height: 60px
+    nav 
+      .search-navbar
+        display: none
+      li
+        a
+          color: $gray
+    .brand-logo
+      height: 60px
+      width: 100%
+      margin-top: 0
+      background-position: center left
+      background-image: url(./logo-mobile-b.png)
+.button-login
+  position: relative
+.userAvatar
+  width: 40px
+  height: 40px
+  overflow: hidden
+  border-radius: 50%
+  position: relative
+  text-align: center
+  img
+    min-width: 100%
+    min-height: 100%
+    width: auto
+    height: 100%
+    position: absolute
+    left: 50%
+    margin-left: -50%
+    top: 50%
+    margin-top: -50%
+
+.userLink
+  color: $gray
+  line-height: 100%
+  padding-right: 15px
+
   //Main Slider
-.owl-dots
-  display: none !important
+
 .slider-container
   height: 100%
-.search-fixed
-  position: absolute
-  bottom: 24%
-  left: 25%
-  right: 25%
-  z-index: 990
-.slider
-  position: relative  
-  height: 100%
-  div:not(.owl-nav, .form-group, .not-full, .slider--caption, .owl-controls)
+  height: 100vh
+
+  .search-fixed
+    appearance: none
+    position: absolute
+    bottom: 24%
+    left: 25%
+    right: 25%
+    z-index: 990
+  .slider
     height: 100%
-  .item
-    background-repeat: no-repeat
-    background-size: cover
-    background-position: center center
-    position: relative
-    &:before
-      content: ""
-      position: absolute
-      top: 0
-      right: 0
-      left: 0 
-      bottom: 0
-      background-color: rgba(0,0,0,0.2)
-    .btn
-      color: $darkGray
-    &.violet
+    height: 100vh  
+    div:not(.owl-nav, .form-group, .not-full, .slider--caption, .owl-controls)
+      height: 100%
+      height: 100vh  
+    .item
+      background-repeat: no-repeat
+      background-size: cover
+      background-position: center center
+      position: relative  
+      &:before
+        content: ""
+        position: absolute
+        top: 0
+        right: 0
+        left: 0 
+        bottom: 0
+        background-color: rgba(0,0,0,0.2)
       .btn
-        background-color: $violet
-        &:hover
-          background-color: darken($violet, 20%)
-    &.yellow
-      .btn
-        background-color: $yellow
-        &:hover
-          background-color: darken($yellow, 20%)
-    &.green
-      .btn
-        background-color: $green
-        &:hover
-          background-color: darken($green, 20%)
-  &--caption
+        color: $darkGray
+      
+  .slider--caption
     position: absolute
     bottom: 28%
     left: 15%
@@ -263,10 +399,8 @@ input:-ms-input-placeholder
       color: white
       font-size: 30px
       margin: 5px auto 45px
-
-  .owl
-    &-prev,
-    &-next
+  .owl-prev,
+  .owl-next
       top: 50%
       position: absolute
       width: 50px
@@ -278,29 +412,36 @@ input:-ms-input-placeholder
       background-position: center !important
       background-size: 30px !important
       background-repeat: no-repeat !important
+      border-radius: 0 !important
       @extend .smooth-move
       &:hover
         background-color: lighten($darkGray,10%)
 
-    &-prev
+  .owl-prev
       left: 0 !important
       background-image: url(./back.svg) !important
-    &-next
+  .owl-next
       right: 0 !important
-      background-image: url(./next.svg) !important
-
-      
-  div
-    height 100% 
-    height 100%
-    background-repeat: no-repeat
-    background-size: cover
-    background-position: center center
-  //Single Page   
-.page-title
+      background-image: url(./next.svg) !important    
+  .owl-pagination
+    display: none
+  //Single Page 
+  @media #{$medium-and-down}
+    .search-fixed
+      left: 2%
+      right: 2%
+      bottom: 10%
+    .slider--caption
+      bottom: 15%
+      h1
+        font-size: 30px
+      h3
+        font-size: 18px
+.page-title  
   text-align: center
 .term-description
   text-align: center
+  display: none
 .woocommerce-result-count
   display: none
   //Categories List   
@@ -456,6 +597,14 @@ input:-ms-input-placeholder
           background-position: center
           background-size: 25px
           background-repeat: no-repeat
+  .card-image
+    overflow: hidden
+    text-align: center
+    img
+      &.woocommerce-placeholder
+        max-height: 100px
+        width: auto
+        margin: auto
   .onsale
     position: absolute
   .card-content
@@ -548,24 +697,29 @@ input:-ms-input-placeholder
   //News 
 .newsletter-widget 
   background-color: $yellow
-  padding: 15px
+  padding: 20px
   border-radius: 10px
   margin-top: 20px
   position: relative
   .mc4wp-response
-    position: absolute
-    display: block
-    top: 0
-    bottom: 0
-    left: 0
-    right: 0
-    background-color: $yellow
-    font-size: 18px
-    padding: 15px
-    display: none
+    p
+      height: 20px
+      position: absolute
+      left: 0
+      right: 0
+      bottom: 5px
+      margin: 0
+      text-align: center
+      line-height: 20px
+      font-size: 13px
   .mc4wp-form-fields
     p
       margin: 0
+      display: inline-block
+      margin-top: 0
+      float: left
+      width: 50%
+      vertical-align: middle
       input
         margin: 0
         border-radius: 5px
@@ -574,28 +728,74 @@ input:-ms-input-placeholder
         width: 100%
         font-size: 14px
       &:nth-child(2)
-        display: none
+        width: 40%
+        display: block
+        margin-left:  15px
+        padding: 4px
+        input
+          padding: 10px
+          background-color: $gray
+          color: white
+          text-transform: uppercase
+          border: none
+          border-radius: 5px
+
   li
     list-style-type: none
   h2
     font-size: 16px
-    width: 60%
+    width: 50%
     display: inline-block
+    vertical-align: middle
   form  
-    width: 30%
+    width: 40%
     display: inline-block
+    vertical-align: middle
     label
       display: none
   input
     background-color: white  
   &-left
+    padding-bottom: 55px
+    height: 240px
+    form
+      width: 100%
+    .mc4wp-form-fields
+      display: block
+      p
+        width: 100%
+        margin: 0
+        display: block
+        input
+          margin: 0
+          border-radius: 5px
+          padding: 0 8px
+          width: 100%
+          font-size: 14px
+        &:nth-child(2)
+          width: 100%
+          display: block
+          margin: 0
+          input
+            padding: 10px
+            background-color: $gray
+            color: white
+            text-transform: uppercase
+            border: none
+            border-radius: 5px
+            display: block
+    .mc4wp-response
+      p
+        height: 35px
+        font-size: 11px 
     h2, form
       display: block
       width: 100%
 //&-top
+
 .single-post
   &-content
-    margin-top: 80px
+    margin-top: 50px
     h1
       font-size: 30px
       color: $gray
@@ -683,6 +883,7 @@ input:-ms-input-placeholder
     height: auto
     max-height: 190px
     width: 100%
+    overflow: hidden
     .onsale
       display: none
   .card-content
@@ -748,7 +949,6 @@ input:-ms-input-placeholder
     h1
       font-size: 30px
       color: $darkGray
-      text-transform: uppercase
       font-weight: bold
       margin: 10px auto
     .posted_in
@@ -848,15 +1048,14 @@ input:-ms-input-placeholder
       .clear
         display: none
       .contact-summary-button
-        margin-top: 10px
-        border: 1px solid darken($violet, 20%)
+        margin: 10px auto
         float: right
         display: block
-        width: 50%
+        width: 49%
         height: 30px
-        background-color: $violet
+        background-color: $gray
         text-align: center
-
+        border-radius: 5px
         @extend .smooth-move
         a
           color: white
@@ -866,20 +1065,26 @@ input:-ms-input-placeholder
           width: 100%
           display: block
         &:hover
-          background-color: darken($violet, 10%)
+          background-color: darken($gray, 10%)
       .yith-wcwl-add-to-wishlist
-        margin-top: 10px
-        border: 1px solid darken($violet, 20%)
-        float: left
+        margin: 10px auto
+        /*float: left*/
         display: block
-        width: 50%
+        width: 49%
         height: 30px
-        background-color: $violet
+        background-color: $gray
         text-align: center
-
+        border-radius: 5px
+        position: relative
         @extend .smooth-move
+        img
+          position: absolute
+          right: 0
+          top: 50%
+          margin-top: -7px
+          opacity: .3
         &:hover
-          background-color: darken($violet, 10%)
+          background-color: darken($gray, 10%)
         &:before
           content: ""
           background: url(./favorite.png) center no-repeat 
@@ -923,6 +1128,8 @@ input:-ms-input-placeholder
       padding: 15px
       p
         margin: 0
+    &-author
+      color: $gray
     &-title
       h3
         font-size: 18px
@@ -943,13 +1150,22 @@ input:-ms-input-placeholder
       line-height: 28px
     h3
       margin: 0
-      font-size: 18px
+      font-size: 16px
       color: $gray
     &.card-comments
       position: relative
-      .woocommerce-verification-required
-        display: none
-      .woocommerce-noreviews,
+      .woocommerce-verification-required,
+      .woocommerce-noreviews
+        padding: 15px
+        border: 1px solid $violet
+        font-size: 14px
+        margin-top: 10px
+        margin-bottom: 10px
+        color: $gray
+      .woocommerce-noreviews
+        text-align: center
+        border: 1px solid $green
+
       .comment-form-rating
         display: none !important
       .comment-notes
@@ -975,6 +1191,8 @@ input:-ms-input-placeholder
           &:hover
             background-color: darken($yellow, 10% )
       .comments-carousel
+        .owl-wrapper-outer
+          overflow: hidden
         .comment_container
           img
             width: 20%
@@ -994,13 +1212,21 @@ input:-ms-input-placeholder
           position: absolute
           top: -40px
           right: 0
-          .owl-nav
+          .owl-buttons
             margin-top: 0
+            width: 60px
             div
               color: transparent
               padding: 0
               margin: 0
               position: relative
+              width: 30px
+              background-color: lighten($gray, 40%)
+              float: left
+              cursor: pointer
+              @extend .smooth-move
+              &:hover
+                background-color: lighten($gray, 30%)
               &:before
                 content: ""
                 position: absolute
@@ -1127,24 +1353,27 @@ input:-ms-input-placeholder
 .tax-dc_vendor_shop
   .products-grid
     margin-top: 0
-  .vendor-profile 
-    margin-top: 100px
-    &-img
-      overflow: hidden
-      border-radius: 50%
-      height: 200px
-      width: 200px
-      img
-        width: 100%
-        height: auto
-    &-bio
-      padding: 15px 
-      font-size: 18px  
-      h1
-        font-size: 35px
-        margin-top: 15px
-        margin-bottom: 15px
-        text-transform: capitalize
+.vendor-profile 
+  margin-top: 100px
+  &-img
+    overflow: hidden
+    border-radius: 50%
+    height: 200px
+    width: 200px
+    img
+      min-height: 200px
+      min-width: 200px
+      width: auto
+      height: auto
+  &-bio
+    padding: 15px 
+    font-size: 18px  
+    h1, h2
+      font-size: 35px
+      margin-top: 15px
+      margin-bottom: 15px
+      text-transform: capitalize
+      color: $gray
 
 .single-post
   p
@@ -1203,15 +1432,75 @@ input:-ms-input-placeholder
 
 
   //My account
+.billList  
+  display: none
+  &.show
+    display: block
+.woocommerce-account
+  h1
+    display: none
+  .single-post-content
+    margin-top: 20px
+  .wishlist-title 
+    display: none 
+  .vendor-profile
+    display: none 
+.order-actions
+  a
+    margin: 0 3px    
+.woocommerce-MyAccount-navigation
+  text-align: center
+  ul
+    display: inline-block
+    overflow: hidden
+    border-radius: 5px
+  li
+    text-align: center
+    display: inline-block
+    background-color: $gray
+    line-height: 40px
+    @extend .smooth-move
+    &.is-active
+      background-color: darken($gray, 20%)
+    //&:nth-child(1)
+      //display: none
+    &.woocommerce-MyAccount-navigation-link--dashboard
+      display: none  
+    a
+     color: white
+     font-size: 15px
+     padding: 0 10px
+     line-height: 40px
+    &:hover
+      background-color: darken($gray, 10%)
+  @media #{$medium-and-down}
+    height: 240px 
+    ul
+      li
+        width: 100%
+        border-top: 1px solid white
+        line-height: 40px
+.signin-form
+  padding: 15px 
+.login-intro
+  font-size: 18px         
+.login-box
+  border: 1px solid lighten($gray, 30%)
+  padding: 0.75rem !important
 .form-login-myaccount
   position: relative
-  padding-top: 50px
+  padding-top: 70px
+  display: block !important
   .wc-social-login
     position: absolute
-    top: 0
+    top: 15px
 .btn-signin-forms
-  padding: 0 10px
+  padding: 0 
   background-color: $gray
+  float: left
+  width: 50%
+  font-size: 14px
+
   &:hover
     background-color: darken($gray, 10%)
   &.active
@@ -1250,38 +1539,35 @@ input:-ms-input-placeholder
 
 
 .signin-form
+  margin-top: 15px
   .ywsl-facebook 
     &:after
       content: "Inicia sesión con Facebook" 
 .signup-form
+  margin-top: 15px
   display: none 
   .form-row
     display: none
   .ywsl-facebook
     &:after
       content: "Regístrate con Facebook" 
-.woocommerce-MyAccount-navigation
-  background-color: $green
-  line-height: 60px
-  height: 60px
-  ul
-    line-height: 60px
-  li
-    @extend .smooth-move
-    line-height: 60px
-    a
-     color: white
-     line-height: 60px
-    &:hover
-      background-color: darken($green, 20%)
 
-.woocommerce-shipping-fields
-  display: none
+//.woocommerce-shipping-fields
+  //display: none
   //Footer
 footer
-  padding: 20px 0 0
+
   background-color: color("blue-grey", "lighten-5");
   box-shadow: 0 0 10px -2px $darkGray
+  .row
+    margin: 0
+  .copyright, .contact, .terms
+    margin: 5px 0
+    font-size: 13px
+  .copyright
+    margin-bottom: 20px
+  .terms
+    font-size: 18px
   h5
     color: color("blue-grey", "darken-1");
   .payment-logos
@@ -1300,9 +1586,11 @@ footer
     border-top: 1px solid darken($gray,15%)
     background-color: lighten($gray, 10%)
     color: darken($gray, 30%)
+    margin-bottom: 15px
   .footer-nav
     font-size: 0
     margin-bottom: 15px
+    margin-top: 20px
     li
       display: inline-block
       padding: 0 10px
@@ -1367,9 +1655,93 @@ footer
       &:before
         background-image: url(./message.png)
 //----------------------------------- 
+.woocommerce_checkout_coupon
+  display: none !important
+.wc_payment_methods
+  img
+    height: 20px
+  .wc_payment_method
+    padding: 10px
+    border: 1px solid $green
+    margin: 10px 0
+    @extend .smooth-move
+    &:hover
+      background-color: lighten($green, 30%)
+  .payment_box
+    padding-left: 35px  
+.woocommerce_checkout_timeline
+  li
+    padding: 10px
+    background-color: lighten($yellow, 10%)
+    margin-right: 20px
+    position: relative
+    height: 32px !important
+    line-height: 32px
+    font-size: 16px !important
+    &.active
+      background-color: $yellow
+      &:after
+        border-left: 20px solid $yellow 
+    &:after
+      content: ""
+      border-top: 16px solid transparent
+      border-bottom: 16px solid transparent 
+      border-left: 20px solid lighten($yellow, 10%) 
+      position: absolute
+      right: -20px
+      top: 50%
+      margin-top: -16px
+  .timeline-wrapper
+    &:after
+      display: none !important
+.timeline-horizontal
+  h3
+    display: none
+.woocommerce-cart
+  .alert-message
+    display: none
+    &:nth-child(1)
+      display: block
+.cart-empty,
+.return-to-shop
+  text-align: center
 .cart_item
   .quantity
+    input[type=number]
+      height: 30px
+      width: 30px
+      text-align: right
+      position: relative
+      margin: 0
+
+  .spinner
     width: 30px
+    position: absolute
+    text-align: center
+    font-size: 18px
+    cursor: pointer
+    height: 30px
+    line-height: 30px
+    background: lighten($green, 30%)
+  .spinner:hover
+    background: lighten($green, 20%) 
+.cart_totals 
+  table
+    tr, td, th
+      text-align: right    
+.coupon-cart-form
+  label
+    display: none
+  input
+    width: 69%
+    margin: 0
+    height: 2.5rem
+  i
+    width: 30%
+    height: 2.5rem
+    line-height:  2.5rem
+.woocommerce table.wishlist_table tbody td
+  padding: 10px    
 .wishlist_table tr td.product-thumbnail a img
   height: auto
 .woocommerce .wishlist_table td.product-add-to-cart a
@@ -1377,7 +1749,12 @@ footer
   padding: 0
   margin: 0
   color: white
-
+.wishlist_table  
+  .product-add-to-cart
+    .btn
+      padding: 0 10px
+      a
+        line-height: 1
 .yith-ajaxsearchform-container
   position: relative
   height: 50px !important
@@ -1390,6 +1767,7 @@ footer
     border-top: 1px solid darken($gray, 30%)
     border-left: 1px solid darken($gray, 30%)
     border-right: 1px solid darken($gray, 30%)
+    border-bottom: 1px solid darken($gray, 30%)
     border-radius: 5px 
     box-sizing: border-box
     text-align: center
@@ -1398,10 +1776,12 @@ footer
     color: lighten($darkGray,20%)
     position: relative
     height: 50px
+    opacity: .8
     @extend .smooth-move
     &:focus
       box-shadow: 0 0 6px 1px $gray !important
       background-color: rgba(250,250,250,.9)
+      opacity: 1
   &:after
     content: ""
     background: url(./icon-search.png) center no-repeat 
@@ -1451,24 +1831,90 @@ footer
     &.show-search
       top: 60px
       opacity: 1
-footer
-  padding: 30px 15px 15px
-  .copyright, .contact, .terms
-    margin: 5px 0
-    font-size: 13px
-  .terms
-    font-size: 18px
 
+.onsale
+  display: none
 
-.spinner
-  width: 30px
-  position: absolute
+.multi_input_block
+  select
+    display: block !important
+
+.checkout-step
+  display: none 
+  &#step-1
+    display: block  
+.validate-postcode
+  display: none  
+#billing_company_field
+  display: none  
+
+.woocommerce-shipping-fields
+  display: none !important
+.validate-postcode
+  display: none !important  
+.validate-required
+  position: relative
+  .warn
+    position: absolute
+    color: red
+    font-size: 11px
+    bottom: -10px  
+  input
+    position: relative  
+    &.warning
+      border-color: red
+.bills-list
+  .woocommerce-Pagination
+    display: none
+#mc_upload
+  font-size: 13px
+.multi-step-bar
   text-align: center
-  font-size: 18px
-  cursor: pointer
-  input[type=number]
-    height: 16px !important
-.spinner:hover
-  background: lightgrey
+  li
+    background-color: $yellow 
+    width: 20%
+    display: inline-block
+    padding: 10px 5px
+    box-sizing: border-box
+    margin: 0 10px
+    font-size: 14px
+    vertical-align: middle
+    position: relative
+    height: 40px
+    &:after
+      content: ""
+      width: 0
+      height: 0 
+      border-top: 20px solid transparent
+      border-bottom: 20px solid transparent 
+      border-left: 15px solid $yellow
+      position: absolute
+      right: -14px
+      top: 50%
+      margin-top: -20px
+    &:before
+      content: ""
+      width: 0
+      height: 0 
+      border-top: 20px solid transparent
+      border-bottom: 20px solid transparent 
+      border-left: 10px solid white
+      position: absolute
+      left: 0
+      top: 50%
+      margin-top: -20px  
+    &.active
+      background-color: darken($yellow, 10%)
+      &:after
+        border-left: 15px solid darken($yellow, 10%)
+
+  @media #{$medium-and-down}  
+    li
+      display: block
+      margin: 0
+      width: 100%  
 
 
+.woocommerce-order-received
+  .cart-empty, .return-to-shop
+    display: none

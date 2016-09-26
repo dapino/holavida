@@ -3,9 +3,7 @@
 		$(document).ready(function(){
 
 
-            $(".button-collapse").sideNav({
-                menuWidth: 200
-            });
+            
             $('.modal-trigger').leanModal({
                   dismissible: true, // Modal can be dismissed by clicking outside of the modal
                   opacity: .5, // Opacity of modal background
@@ -14,46 +12,30 @@
                   ready: function() { console.log('Ready'); }, // Callback for Modal open
                   complete: function() { console.log('Closed'); } // Callback for Modal close
                 }
-              );
-			$("#main-slider").owlCarousel({
+            );
+
+			       $("#main-slider").owlCarousel({
                 navigation : true, 
                 loop:true,
                 margin:10,
                 nav:true,
                 autoplay:true,
                 autoplayTimeout:5000,
-                responsive:{
-                    0:{
-                        items:1
-                    },
-                    600:{
-                        items:1
-                    },
-                    1000:{
-                        items:1
-                    }
-                }
-            });
-            $("#comments-carousel").owlCarousel({
-                navigation : true, 
-                loop:true,
-                margin:10,
-                nav:true,
-                autoplay:false,
-                autoplayTimeout:10000,
-                responsive:{
-                    0:{
-                        items:1
-                    },
-                    600:{
-                        items:1
-                    },
-                    1000:{
-                        items:1
-                    }
-                }
+                singleItem:true
             });
 
+            $("#comments-carousel").owlCarousel({
+                navigation : true, // Show next and prev buttons
+                slideSpeed : 300,
+                paginationSpeed : 400,
+                singleItem:true
+            });
+
+            
+            $("#showBills").click(function(event) {
+               $(this).toggleClass('close');
+               $('#billList').toggleClass('show');
+            });
 
             $("#navbar-search-button").click(function(event) {
                $(this).toggleClass('close');
@@ -74,14 +56,13 @@
             });
             
             $('input[type="number"]').css({
-                width: 50,
+                width: 30,
                 left: 40,
                 position: 'relative'
             }).after(function() {
                 return $('<div />', {
                     'class': 'spinner',
                     css : {
-                        height: $(this).outerHeight(),
                         top: $(this).position().top,
                         left: $(this).position().left - 40,
                     },
@@ -93,9 +74,8 @@
                 return $('<div />', {
                     'class': 'spinner',
                     css : {
-                        height: $(this).outerHeight(),
                         top: $(this).position().top,
-                        left: $(this).position().left + $(this).width(),
+                        left: $(this).position().left + 40,
                     },
                     text: '+'
                 }).on('click', {input : this}, function(e) {
@@ -124,6 +104,117 @@
                     }
                 }   
             })
+
+            $('.remove_img').on('click', function( event ){
+                event.preventDefault()
+
+                var placeholder = $('#mc_placeholder_meta').val()
+
+                $(this).parent().fadeOut('fast', function(){
+                  $(this).remove()
+                  $('.mc-current-img').addClass('placeholder').attr('src', placeholder)
+                })
+                $('#mc_upload_meta, #mc_upload_edit_meta, #mc_meta').val('')
+              })
+
+            var upd_cart_btn = $(".update-cart-button");
+            upd_cart_btn.hide();
+            $(".spinner").on("click", function(){
+                upd_cart_btn.trigger("click");
+            });
+
+
+
+
+            var $stepOne = $('#step-1');
+            var $stepTwo = $('#step-2');
+            var $stepThree = $('#step-3');
+            var $stepFour = $('#step-4');
+            var $btn2One = $('#button-to-1');
+            var $btn2Two = $('#button-to-2');
+            var $btn2Two2 = $('#button-to-2-2');
+            var $btn2Three = $('#button-to-3');
+            var $btn2Four = $('#button-to-4');
+            
+            $btn2One.click(function() {
+              $btn2Two.css('display', 'none');
+              $stepOne.css('display', 'block');
+            });
+
+            $btn2Two.click(function() {
+              $stepThree.css('display', 'none');
+              $stepOne.css('display', 'none');
+              $stepTwo.css('display', 'block');
+            });
+            $btn2Two2.click(function() {
+              $stepThree.css('display', 'none');
+              $stepOne.css('display', 'none');
+              $stepTwo.css('display', 'block');
+            });
+
+            $btn2Three.click(function() {
+              $stepTwo.css('display', 'none');
+              $stepFour.css('display', 'none');
+              $stepThree.css('display', 'block');
+            });
+
+            $btn2Four.click(function() {
+              $stepThree.css('display', 'none');
+              $stepFour.css('display', 'block');
+            });
+
+            if ( $stepTwo.length == 0) {
+              //$('.div').data("") 
+              $btn2Two.click(function() {
+                $stepThree.css('display', 'block');
+                $stepOne.css('display', 'none');
+              });
+              $btn2Two2.click(function() {
+                $stepThree.css('display', 'none');
+                $stepOne.css('display', 'block');
+              });
+            }
+
+
+
+              var $fields = $(".validate-required input");
+              var $emptyFields = $fields.filter(function() {
+                  return $.trim(this.value) === "";
+              });
+
+              $fields.blur(function(){
+                if( !$(this).val() ) {
+                  $(this).before('<p class="warn">Este campo es obligatorio</p>')
+                  $(this).addClass('warning');
+                  $btn2Four.css('display', 'none');
+                } else {
+                  $('.warn').fadeOut();
+                  $(this).removeClass('warning');
+                }
+              });
+
+              $fields.keyup(function() {
+                if (!$emptyFields.length) {
+                    $btn2Four.css('display', 'inline-block');
+                } else {
+                    $btn2Four.css('display', 'none');
+                }
+
+              });
+              
+
+              
+
+            
+            $('#showMenu').click(function() {
+              $('#mobileMenu').toggleClass('show');
+            }); 
+
+            
+
+            
+
+
 		}); 		
 	});
 }(jQuery));

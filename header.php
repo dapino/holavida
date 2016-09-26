@@ -7,7 +7,12 @@
 		<title> <?php wp_title('-', true, 'right'); bloginfo('name'); ?> </title>
 		<?php wp_head(); ?>
 	</head>
+		
+	
 
 	<!--revisar $body_classes-->
 	<body <?php body_class();?>>
+	<main>
+
 			<?php get_template_part( 'includes/navbar' ); ?>
+

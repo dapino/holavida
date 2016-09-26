@@ -1,7 +1,7 @@
 <section id="new-products" class="section-padding">
   <div class="container">
     
-      <h3 class="center module-title text-dark-gray">Experiencias</h3>
+      <h3 class="center module-title text-dark-gray">Experiencias Destacadas</h3>
 
     <div class="row products-carousel">
       <?php
@@ -25,7 +25,7 @@
         
     </div>
     <div class="row center-align">
-      <a href="<?php echo site_url(); ?>/tienda" class="btn btn-large gray-bg">Ver todas las experiencias</a>
+      <a href="<?php echo get_permalink( woocommerce_get_page_id( 'shop' ) ); ?>" class="btn btn-large gray-bg">Ver todas las experiencias</a>
     </div>
   </div>
 </section>

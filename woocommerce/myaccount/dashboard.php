@@ -35,6 +35,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	?>
 </p>
 
+<script>
+	window.location.replace("edit-account/");
+
+</script>
+
 <?php
 	/**
 	 * My Account dashboard.
