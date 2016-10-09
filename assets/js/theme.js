@@ -188,9 +188,12 @@ responsive:!0,responsiveRefreshRate:200,responsiveBaseWidth:g,baseClass:"owl-car
             var $btn2Three = $('#button-to-3');
             var $btn2Four = $('#button-to-4');
             
+        
+
             $btn2One.click(function() {
               $btn2Two.css('display', 'none');
               $stepOne.css('display', 'block');
+              $stepTwo.css('display', 'none');
             });
 
             $btn2Two.click(function() {

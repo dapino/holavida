@@ -20,9 +20,9 @@ if ( ! $checkout->enable_signup && ! $checkout->enable_guest_checkout && ! is_us
 	<div class="row checkout-step" id="step-3">
 		<ul class="multi-step-bar">
 			<li>Carrito</li>
-			<?php  if ( !is_user_logged_in() ) { ?><li>Ingreso</li><?php  } ?>
+			<li>Ingreso</li>
 			<li  class="active">Datos de compra</li>
-			<li>Confirmación de pago</li>
+			<li>Confirmación de orden</li>
 		</ul>
 		<div class="col l8 m8 offset-l2 offset-m2 s12">
 
@@ -51,9 +51,9 @@ if ( ! $checkout->enable_signup && ! $checkout->enable_guest_checkout && ! is_us
 	<div class="row checkout-step" id="step-4">
 		<ul class="multi-step-bar">
 			<li>Carrito</li>
-			<?php if ( !is_user_logged_in() ) { ?><li>Ingreso</li><?php  } ?>
+			<li>Ingreso</li>
 			<li>Datos de compra</li>
-			<li class="active">Confirmación de pago</li>
+			<li class="active">Confirmación de orden</li>
 		</ul>
 		<div class="col l8 m8 offset-l2 offset-m2 s12">
 

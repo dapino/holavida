@@ -26,5 +26,8 @@ wc_print_notices();
 <?php 
 wc_print_notice( __( 'Password reset email has been sent.', 'woocommerce' ) );
 ?>
+<script>
+  window.location.replace("/my-account/");
 
+</script>
 </div>

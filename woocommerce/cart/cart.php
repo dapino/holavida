@@ -1,14 +1,11 @@
 <div class="row checkout-step" id="step-1">
 <ul class="multi-step-bar">
 	<li class="active">Carrito</li>
-	<?php 
-    if ( !is_user_logged_in() ) {
-  ?>
-		<li>Ingreso</li>
-  <?php  } ?>
+	<li>Ingreso</li>
 	<li>Datos de compra</li>
-	<li>Confirmación de pago</li>
+	<li>Confirmación de orden</li>
 </ul>
+
 	<?php
 	if ( ! defined( 'ABSPATH' ) ) {
 		exit; // Exit if accessed directly

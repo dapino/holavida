@@ -114,6 +114,21 @@ input::-moz-placeholder
   color: $placeholder-color
 input:-ms-input-placeholder
   color: $placeholder-color
+.wpcf7  
+  input[type=submit], button
+    @extend .btn
+    appearance: none 
+    background-color: $gray
+    &:hover
+      background-color: darken($gray, 10%)
+  textarea
+    border: 1px solid lighten($gray, 30%)
+    appearance: none 
+    border-radius: 0
+    &:focus
+      outline: none
+      border: 1px solid $gray  !important
+      box-shadow: 0 0 0 0 $gray !important
 
 //----------------------------------- MODULES
 .show-on-med-and-down
@@ -432,9 +447,9 @@ input:-ms-input-placeholder
       right: 2%
       bottom: 10%
     .slider--caption
-      bottom: 15%
+      bottom: 25%
       h1
-        font-size: 30px
+        font-size: 25px
       h3
         font-size: 18px
 .page-title  
@@ -791,11 +806,47 @@ input:-ms-input-placeholder
     h2, form
       display: block
       width: 100%
+  @media #{$medium-and-down}    
+    padding-bottom: 55px
+    height: 240px
+    form
+      width: 100%
+    .mc4wp-form-fields
+      display: block
+      p
+        width: 100%
+        margin: 0
+        display: block
+        input
+          margin: 0
+          border-radius: 5px
+          padding: 0 8px
+          width: 100%
+          font-size: 14px
+        &:nth-child(2)
+          width: 100%
+          display: block
+          margin: 0
+          input
+            padding: 10px
+            background-color: $gray
+            color: white
+            text-transform: uppercase
+            border: none
+            border-radius: 5px
+            display: block
+    .mc4wp-response
+      p
+        height: 35px
+        font-size: 11px 
+    h2, form
+      display: block
+      width: 100%
 //&-top
 
 .single-post
   &-content
-    margin-top: 50px
+    margin-top: 0px
     h1
       font-size: 30px
       color: $gray
@@ -970,6 +1021,8 @@ input:-ms-input-placeholder
           max-width: 540px
           height: 360px
     .summary
+      .product_meta
+        display: none
       .important-info
         border: 1px solid lighten($gray, 20%)
         padding:  0 15px
@@ -1070,7 +1123,7 @@ input:-ms-input-placeholder
         margin: 10px auto
         /*float: left*/
         display: block
-        width: 49%
+        width: 60%
         height: 30px
         background-color: $gray
         text-align: center
@@ -1376,6 +1429,7 @@ input:-ms-input-placeholder
       color: $gray
 
 .single-post
+  margin-top: 60px
   p
     font-size: 16px
   .cta-blog
@@ -1429,7 +1483,15 @@ input:-ms-input-placeholder
     font-size: 20px
     margin: 0
     color: white
-
+  @media #{$medium-and-down}
+    p
+      text-align: center
+      margin-bottom: 10px
+    a
+      text-align: center
+      width: 100%
+    .valign-wrapper
+      display: block !important
 
   //My account
 .billList  
@@ -1655,8 +1717,8 @@ footer
       &:before
         background-image: url(./message.png)
 //----------------------------------- 
-.woocommerce_checkout_coupon
-  display: none !important
+//.woocommerce_checkout_coupon
+  //display: none !important
 .wc_payment_methods
   img
     height: 20px
@@ -1918,3 +1980,26 @@ footer
 .woocommerce-order-received
   .cart-empty, .return-to-shop
     display: none
+  .woocommerce-message, .woocommerce-error, .woocommerce-info
+    text-align: center  
+    width: 66.66667%
+    margin: auto
+    padding: 15px
+  .woocommerce-message
+    border: 1px solid green
+  .woocommerce-error
+    border: 1px solid red
+  .woocommerce-info
+    border: 1px solid blue
+  .order_details
+    border-bottom: 1px solid lighten($gray, 30%) 
+  .order_content
+    border: 1px solid lighten($gray, 30%) 
+    padding: 25px
+  .woocommerce-thankyou-order-failed
+    font-size: 18px
+    color: red
+  .woocommerce-thankyou-order-received
+    font-size: 18px
+    color: green
+

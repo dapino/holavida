@@ -13,13 +13,9 @@
 <div class="row checkout-step" id="step-2">
 <ul class="multi-step-bar">
   <li>Carrito</li>
-  <?php 
-    if ( !is_user_logged_in() ) {
-  ?>
-    <li class="active">Ingreso</li>
-  <?php  } ?>
+  <li class="active">Ingreso</li>
   <li>Datos de compra</li>
-  <li>Confirmación de pago</li>
+  <li>Confirmación de orden</li>
 </ul>
   <div class="row center-align">
     <?php 
