@@ -37,10 +37,7 @@
                $('#billList').toggleClass('show');
             });
 
-            $("#navbar-search-button").click(function(event) {
-               $(this).toggleClass('close');
-               $('#navbar-search').toggleClass('show-search');
-            });
+            
 
             $("#signin-button").click(function(event) {
                $(this).addClass('active');
@@ -212,8 +209,12 @@
             $('#showMenu').click(function() {
               $('#mobileMenu').toggleClass('show');
             }); 
+           
+          $(document).on('click tap', '#navbar-search-button', function() {
+            $("#navbar-search-button").toggleClass('close');
+            $('#navbar-search').toggleClass('show-search');
+          });
 
-            
 
             
 

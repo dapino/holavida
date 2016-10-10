@@ -91,7 +91,7 @@
 	<nav>
 		<div class="nav-wrapper">			
 				<div class="row">
-					<div class="col s10">
+					<div class="col s9">
 						
 						<a href="<?php echo site_url(); ?>" class="brand-logo">
 							<?php if ( get_theme_mod( 'custom_logo' ) ) : ?>
@@ -102,33 +102,10 @@
 						</a>
 
 					</div>
-					<div class="col s1">
-						<div class="button-login">
-							<?php 
-							if ( is_user_logged_in() ) {
-								$user_id         = get_current_user_id();
-								$user            = get_userdata( $user_id );
-								$mc_user_avatar = esc_url( get_the_author_meta( 'mc_meta', $user_id ) ); 
-								$current_user = wp_get_current_user();
-								$user_id         = get_current_user_id();
-								$user            = get_userdata( $user_id );
-								
-							?>
-								<a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" title="<?php _e('My Account',''); ?>">
-									<div class="userAvatar right"><img src="<?php echo $mc_user_avatar; ?>"></div>
-									<p class="userLink right">
-	    							<?php
-	    								printf( esc_html( $current_user->display_name ) );
-	    							?>
-									</p>
-								</a>
-							<?php
-					    } else { ?>
-					        <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" title="<?php _e('My Account',''); ?>">
-								</a>
-
-								</a>
-					    <?php } ?>
+					<div class="col s1 offset-s1">
+						<div class="search-navbar" id="navbar-search-button">
+							<span class="search-navbar-button">
+							</span>
 						</div>
 					</div>
 					<div class="col s1">
@@ -145,7 +122,7 @@
 		<?php
 					wp_nav_menu(
 						array(
-							'theme_location' => 'main-menu',
+							'theme_location' => 'mobile-menu',
 							'container' => 'ul',
 							'sort_column' => 'menu_order',
 							'container_class' => '',

@@ -59,6 +59,7 @@ function theme_customizer( $wp_customize ) {
       function register_menu() {
         register_nav_menu('main-menu', __('Main menu')); 
         register_nav_menu('footer-menu', __('Footer menu')); 
+        register_nav_menu('mobile-menu', __('menu movil')); 
       }   
       add_action('init', 'register_menu');
 

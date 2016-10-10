@@ -278,11 +278,10 @@ input:-ms-input-placeholder
   top: 0
   .button-collapse
     color: $darkGray
-  .search-navbar
-    display: none
+
   .brand-logo
     height: 60px
-    width: 100%
+    width: 95%
     margin-top: 0
     background-position: center left
     background-image: url(./logo-mobile-w.png)
@@ -292,14 +291,13 @@ input:-ms-input-placeholder
     height: 40px
     position: absolute
     right: 5px
-    border-radius: 50%
     top: 0
     margin-top: 10px
     background-image: url(./menu.png)
     background-position: center
     background-size: 40px 40px
     background-color: transparent
-  .button-login
+  /*.button-login
     width: 40px
     height: 40px
     position: absolute
@@ -313,30 +311,27 @@ input:-ms-input-placeholder
     background-color: transparent
     overflow: hidden
     .userAvatar, .userLink
-      opacity: 0
+      opacity: 0*/
   .search-navbar
     position: absolute
-    right: 80px
-    display: none
+    right: 50px
+    width: 40px
+    height: 40px
     &-button
       opacity: 1  
       height: 40px
-      border: 2px solid $darkGray
       width: 40px
-      margin-top: 10px
-      border-radius: 50%
-
+      margin: 10px 0 0
   &.down
     height: 60px
     nav 
-      .search-navbar
-        display: none
+     
       li
         a
           color: $gray
     .brand-logo
       height: 60px
-      width: 100%
+      width: 95%
       margin-top: 0
       background-position: center left
       background-image: url(./logo-mobile-b.png)
@@ -380,8 +375,10 @@ input:-ms-input-placeholder
     z-index: 990
   .slider
     height: 100%
-    height: 100vh  
-    div:not(.owl-nav, .form-group, .not-full, .slider--caption, .owl-controls)
+    height: 100vh 
+    .owl-item
+      float: left 
+    div:not(.owl-nav, .form-group, .not-full, .slider--caption, .owl-controls, .owl-buttons)
       height: 100%
       height: 100vh  
     .item
@@ -472,6 +469,7 @@ input:-ms-input-placeholder
       box-sizing: border-box
       text-align: center
       @extend .smooth-move
+
       a
         display: block
         text-align:  center
@@ -539,6 +537,20 @@ input:-ms-input-placeholder
           opacity: 1
           margin-top: -95px
           color: #4d4d4d
+  @media #{$medium-and-down} 
+    li
+      .category
+        height: 120px
+        &-title
+          height: 30px
+          font-size: 30px
+          margin-top: 40px
+        p
+          font-size: 21px
+          padding: 15px
+        &:hover
+          p
+            margin-top: -80px  
   //Card Item  
 .product-item, .products
   li
@@ -901,6 +913,10 @@ input:-ms-input-placeholder
       text-align: center
       color: white
       font-size: 18px
+  @media #{$medium-and-down}  
+    .single-post-content  
+      h1, h3
+        text-align: center
 .news-item 
   position: relative
   display: block
@@ -1154,7 +1170,9 @@ input:-ms-input-placeholder
           display: block
   .subtitle-related
     margin-top: 0
-    font-size: 25px      
+    font-size: 25px  
+    @media #{$medium-and-down}  
+      text-align: center
   .large-description
     h2
       margin-top: 0
@@ -1205,6 +1223,7 @@ input:-ms-input-placeholder
       margin: 0
       font-size: 16px
       color: $gray
+
     &.card-comments
       position: relative
       .woocommerce-verification-required,
@@ -1308,6 +1327,17 @@ input:-ms-input-placeholder
       p
         color: $gray
         margin-top: 5px
+    @media #{$medium-and-down}
+      h2
+        text-align: center
+      &.card-vendor
+        img
+          width: 40%
+          display: block
+          margin: 5px auto 5px
+        p
+          color: $gray
+          margin-top: 5px  
 
 #report_abuse
   display: none !important
@@ -1507,6 +1537,9 @@ input:-ms-input-placeholder
     display: none 
   .vendor-profile
     display: none 
+  @media #{$medium-and-down} 
+    .product-stock-stauts, .product-stock-status
+      display: none  
 .order-actions
   a
     margin: 0 3px    
@@ -1536,12 +1569,37 @@ input:-ms-input-placeholder
     &:hover
       background-color: darken($gray, 10%)
   @media #{$medium-and-down}
-    height: 240px 
+    height: 60px 
     ul
       li
-        width: 100%
+        width: 45px
+        height: 45px
         border-top: 1px solid white
         line-height: 40px
+        overflow: hidden
+        margin: 0 4px
+        border-radius: 50%
+        background-color: $yellow
+        position: relative
+        background-size: 30px
+        background-repeat: no-repeat
+        background-position: center
+        &.is-active, &:hover
+          background-color: darken($yellow, 20%)
+        a
+          display: block
+          font-size: 0
+        
+        &.woocommerce-MyAccount-navigation-link--orders
+          background-image: url(./experiencias.png)
+        &.woocommerce-MyAccount-navigation-link--my-wishlist
+          background-image: url(./wishlist.png)
+        &.woocommerce-MyAccount-navigation-link--edit-account
+          background-image: url(./perfil.png)
+        &.woocommerce-MyAccount-navigation-link--edit-address
+          background-image: url(./info.png)
+        &.woocommerce-MyAccount-navigation-link--customer-logout
+          background-image: url(./logout.png)
 .signin-form
   padding: 15px 
 .login-intro
@@ -1972,9 +2030,41 @@ footer
 
   @media #{$medium-and-down}  
     li
-      display: block
       margin: 0
-      width: 100%  
+      width: 60px
+      height: 60px 
+      font-size: 0
+      border-radius: 50%
+      &:before
+        display: none
+      &:after
+        content: "1"
+        width: 60px
+        height: 60px
+        border: 0
+        position: absolute
+        right: 0
+        top: 0
+        margin-top: 0
+        line-height: 60px
+        color: $gray
+        font-size: 20px
+        font-family: 'Trebuchet'
+      &.active
+        &:after
+          border-left: 0
+      &:nth-child(1)
+        &:after
+          content: "1"    
+      &:nth-child(2)
+        &:after
+          content: "2"    
+      &:nth-child(3)
+        &:after
+          content: "3"    
+      &:nth-child(4)
+        &:after
+          content: "4"    
 
 
 .woocommerce-order-received

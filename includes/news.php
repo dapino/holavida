@@ -35,7 +35,7 @@ $cat_name = $cats[0]->name;
       <?php endwhile; ?>
     </div>
     <div class="row center-align">
-      <a href="<?php echo site_url(); ?>/blog" class="btn btn-small gray-bg">Ir al blog</a>
+      <a href="<?php echo site_url(); ?>/blog" class="btn btn-small gray-bg"><?php echo of_get_option('ir-blog') ?></a>
     </div>
   </div>
 </section>
